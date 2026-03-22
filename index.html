@@ -17,265 +17,54 @@
     --card: #ffffff;
     --border: #f0e0e8;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--dark);
-    min-height: 100vh;
-  }
-
-  /* Header */
-  .header {
-    background: var(--dark);
-    padding: 40px 20px 32px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(181,41,78,0.25) 0%, transparent 65%),
-                radial-gradient(ellipse at 80% 30%, rgba(201,169,110,0.15) 0%, transparent 55%);
-    pointer-events: none;
-  }
-  .header-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 10px;
-    position: relative;
-  }
-  .header-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
-    font-weight: 600;
-    color: #fff;
-    line-height: 1.15;
-    position: relative;
-  }
-  .header-title em {
-    font-style: italic;
-    color: var(--rose-mid);
-  }
-  .header-sub {
-    font-size: 13px;
-    color: rgba(255,255,255,0.45);
-    margin-top: 10px;
-    position: relative;
-    font-weight: 300;
-  }
-  .header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(181,41,78,0.2);
-    border: 1px solid rgba(181,41,78,0.35);
-    color: var(--rose-mid);
-    font-size: 11px;
-    font-weight: 500;
-    padding: 5px 12px;
-    border-radius: 20px;
-    margin-top: 16px;
-    position: relative;
-  }
-
-  /* Search */
-  .search-wrap {
-    padding: 16px 16px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 12px;
-  }
-  .search-box {
-    width: 100%;
-    padding: 11px 16px 11px 40px;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    background: var(--card);
-    color: var(--dark);
-    outline: none;
-    -webkit-appearance: none;
-    transition: border-color 0.2s;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
+  .header { background: var(--dark); padding: 40px 20px 32px; text-align: center; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(181,41,78,0.25) 0%, transparent 65%), radial-gradient(ellipse at 80% 30%, rgba(201,169,110,0.15) 0%, transparent 55%); pointer-events: none; }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; position: relative; }
+  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: #fff; line-height: 1.15; position: relative; }
+  .header-title em { font-style: italic; color: var(--rose-mid); }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 10px; position: relative; font-weight: 300; }
+  .header-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(181,41,78,0.2); border: 1px solid rgba(181,41,78,0.35); color: var(--rose-mid); font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 20px; margin-top: 16px; position: relative; }
+  .search-wrap { padding: 16px 16px 12px; position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .search-box { width: 100%; padding: 11px 16px 11px 40px; border: 1.5px solid var(--border); border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--card); color: var(--dark); outline: none; -webkit-appearance: none; transition: border-color 0.2s; }
   .search-box:focus { border-color: var(--rose-mid); }
-  .search-wrap { position: relative; }
-  .search-icon {
-    position: absolute;
-    left: 28px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    font-size: 15px;
-    pointer-events: none;
-  }
-  .count-pill {
-    font-size: 11px;
-    color: var(--muted);
-    text-align: center;
-    padding: 8px 0 0;
-    font-weight: 400;
-  }
-
-  /* Cards */
-  .list {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .card {
-    background: var(--card);
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    transition: box-shadow 0.2s;
-  }
+  .search-icon { position: absolute; left: 28px; top: 26px; color: var(--muted); font-size: 15px; pointer-events: none; }
+  .count-pill { font-size: 11px; color: var(--muted); text-align: center; padding: 8px 0 0; font-weight: 400; }
+  .list { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .card { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.2s; }
   .card:active { box-shadow: 0 2px 16px rgba(181,41,78,0.1); }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 16px 12px;
-    border-bottom: 1px solid var(--rose-light);
-    background: var(--rose-light);
-    gap: 10px;
-  }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 12px; border-bottom: 1px solid var(--rose-light); background: var(--rose-light); gap: 10px; }
   .card-info { flex: 1; min-width: 0; }
-  .card-num {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--rose);
-    margin-bottom: 2px;
-  }
-  .card-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--dark);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .card-meta {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .meta-pill {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 2px 8px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .meta-pill.pases {
-    background: var(--rose);
-    color: white;
-    border-color: var(--rose);
-    font-weight: 500;
-  }
-
-  .card-body {
-    padding: 16px;
-  }
-  .msg-preview {
-    font-size: 13px;
-    line-height: 1.65;
-    color: var(--dark);
-    white-space: pre-wrap;
-    word-break: break-word;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-  }
-
-  /* Copy button */
-  .btn-copy {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 13px;
-    background: var(--rose);
-    color: white;
-    border: none;
-    border-radius: 0 0 18px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-    -webkit-appearance: none;
-    letter-spacing: 0.3px;
-  }
+  .card-num { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rose); margin-bottom: 2px; }
+  .card-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-meta { font-size: 11px; color: var(--muted); margin-top: 2px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-pill { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 2px 8px; font-size: 11px; color: var(--muted); }
+  .meta-pill.pases { background: var(--rose); color: white; border-color: var(--rose); font-weight: 500; }
+  .card-body { padding: 16px; }
+  .msg-preview { font-size: 13px; line-height: 1.65; color: var(--dark); white-space: pre-wrap; word-break: break-word; font-family: 'DM Sans', sans-serif; font-weight: 300; }
+  .btn-copy { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; background: var(--rose); color: white; border: none; border-radius: 0 0 18px 18px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; -webkit-appearance: none; letter-spacing: 0.3px; }
   .btn-copy:active { background: #8f1e3a; }
-  .btn-copy.copied {
-    background: #1a7a4a;
-  }
-  .btn-copy.copied::before { content: '✓  '; }
-
-  /* Divider */
-  .ornament {
-    text-align: center;
-    color: var(--rose-mid);
-    font-size: 18px;
-    opacity: 0.5;
-    margin: 4px 0 -4px;
-    letter-spacing: 8px;
-  }
-
-  .hidden { display: none !important; }
-
-  .empty-state {
-    text-align: center;
-    padding: 48px 24px;
-    color: var(--muted);
-    font-size: 14px;
-  }
+  .btn-copy.copied { background: #1a7a4a; }
+  .ornament { text-align: center; color: var(--rose-mid); font-size: 18px; opacity: 0.5; margin: 4px 0 -4px; letter-spacing: 8px; }
+  .empty-state { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 14px; }
   .empty-state span { font-size: 32px; display: block; margin-bottom: 12px; }
 </style>
 </head>
 <body>
-
 <div class="header">
   <p class="header-eyebrow">Wedding Planner · Natalia Rodas</p>
   <h1 class="header-title">Mayra <em>&</em> Kevin<br>💌</h1>
   <p class="header-sub">Sábado 28 de marzo de 2026 · Colán, Piura</p>
   <div class="header-badge">56 invitados · Confirmar antes del 22 de marzo</div>
 </div>
-
 <div class="search-wrap">
   <span class="search-icon">🔍</span>
   <input class="search-box" type="search" placeholder="Buscar invitado..." oninput="filtrar(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
   <div class="count-pill" id="count-label">56 mensajes listos para enviar</div>
 </div>
-
 <div class="list" id="lista"></div>
-
 <script>
-const ENLACE = '[enlace de invitación virtual]';
-
 const invitados = [
   ['Gustavo Igreda y familia','995242424',3],
   ['Manuel Igreda y Pareja','998990835',2],
@@ -335,13 +124,8 @@ const invitados = [
   ['Jessela Avila','948018789',2],
 ];
 
-function primerNombre(nombre) {
-  return nombre.split(' ')[0];
-}
-
-function pasesTexto(p) {
-  return p === 1 ? '1 pase' : `${p} pases`;
-}
+function primerNombre(n) { return n.split(' ')[0]; }
+function pasesTexto(p) { return p === 1 ? '1 pase' : `${p} pases`; }
 
 function generarMensaje(nombre, pases) {
   return `Hola, ${primerNombre(nombre)} 🤍
@@ -355,8 +139,11 @@ En nombre de los novios, me complace escribirte personalmente para confirmar tu 
 
 Mayra y Kevin han reservado *${pasesTexto(pases)}* exclusivamente para ti — porque no imaginan este momento sin tu presencia.
 
-A continuación te compartimos la invitación oficial 💌
-👉 ${ENLACE}
+📌 *Ubicación de la recepción:*
+https://maps.app.goo.gl/awUQPWxsM6zqL55KA
+
+🎁 *Lista de regalos:*
+https://sinenvolturas.com/mayraykevin/regalos
 
 Te pedimos gentilmente confirmar tu asistencia antes del *22 de marzo*, respondiendo *SÍ* o *NO* a este mensaje.
 
@@ -384,55 +171,40 @@ function copiar(idx, btn) {
 function confirmarCopia(btn) {
   btn.classList.add('copied');
   btn.textContent = '✓  ¡Copiado! Pega en WhatsApp';
-  setTimeout(() => {
-    btn.classList.remove('copied');
-    btn.textContent = '📋  Copiar mensaje';
-  }, 2500);
+  setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋  Copiar mensaje'; }, 2500);
 }
 
 function renderCards(lista) {
   const container = document.getElementById('lista');
   const label = document.getElementById('count-label');
-
   if (lista.length === 0) {
     container.innerHTML = '<div class="empty-state"><span>🔍</span>No se encontró ese invitado</div>';
     label.textContent = 'Sin resultados';
     return;
   }
-
   label.textContent = `${lista.length} mensaje${lista.length > 1 ? 's' : ''} encontrado${lista.length > 1 ? 's' : ''}`;
-
   container.innerHTML = lista.map(([idx, nombre, celular, pases]) => {
     const msg = generarMensaje(nombre, pases);
-    return `
-    <div class="card" id="card-${idx}">
-      <div class="card-header">
-        <div class="card-info">
-          <div class="card-num">Invitado ${idx + 1}</div>
-          <div class="card-name">${nombre}</div>
-          <div class="card-meta">
-            <span class="meta-pill">📱 ${celular}</span>
-            <span class="meta-pill pases">🎟 ${pasesTexto(pases)}</span>
-          </div>
+    return `<div class="card" id="card-${idx}">
+      <div class="card-header"><div class="card-info">
+        <div class="card-num">Invitado ${idx + 1}</div>
+        <div class="card-name">${nombre}</div>
+        <div class="card-meta">
+          <span class="meta-pill">📱 ${celular}</span>
+          <span class="meta-pill pases">🎟 ${pasesTexto(pases)}</span>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="msg-preview">${msg.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
-      </div>
-      <button class="btn-copy" onclick="copiar(${idx}, this)">📋&nbsp; Copiar mensaje</button>
+      </div></div>
+      <div class="card-body"><div class="msg-preview">${msg.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div></div>
+      <button class="btn-copy" onclick="copiar(${idx}, this)">📋  Copiar mensaje</button>
     </div>`;
   }).join('<div class="ornament">· · ·</div>');
 }
 
 function filtrar(q) {
   const term = q.trim().toLowerCase();
-  const filtrados = invitados
-    .map((inv, i) => [i, ...inv])
-    .filter(([, nombre]) => nombre.toLowerCase().includes(term));
-  renderCards(filtrados);
+  renderCards(invitados.map((inv, i) => [i, ...inv]).filter(([,n]) => n.toLowerCase().includes(term)));
 }
 
-// Initial render
 renderCards(invitados.map((inv, i) => [i, ...inv]));
 </script>
 </body>
