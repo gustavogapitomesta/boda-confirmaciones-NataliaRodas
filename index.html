@@ -56,7 +56,7 @@
   <p class="header-eyebrow">Wedding Planner · Natalia Rodas</p>
   <h1 class="header-title">Mayra <em>&</em> Kevin<br>💌</h1>
   <p class="header-sub">Sábado 28 de marzo de 2026 · Colán, Piura</p>
-  <div class="header-badge">56 invitados · Confirmar antes del 22 de marzo</div>
+  <div class="header-badge">56 invitados · Confirmar hasta el 23 de marzo</div>
 </div>
 <div class="search-wrap">
   <span class="search-icon">🔍</span>
@@ -66,31 +66,31 @@
 <div class="list" id="lista"></div>
 <script>
 const invitados = [
-  ['Gustavo Igreda y familia','995242424',3],
-  ['Manuel Igreda y Pareja','998990835',2],
-  ['Jackeline Valer y Familia','932287000',3],
-  ['Brayan Acosta y Pareja','977744614',2],
+  ['Gustavo Igreda','995242424',3],
+  ['Manuel Igreda Valer','998990835',2],
+  ['Jackeline Valer Valverde','932287000',3],
+  ['Brayan Acosta','977744614',2],
   ['Kelly Raymundo','992205439',2],
-  ['Lizeth Raymundo y familia','969813773',2],
+  ['Lizeth Raymundo','969813773',2],
   ['Elvira Maravi','963606271',4],
-  ['Rosa Leon y familia','957977238',3],
+  ['Rosa León','957977238',3],
   ['Rosaura Cardenas','948163051',1],
-  ['Cesar Valer y familia','922456230',2],
-  ['Silvia Valer y familia','982059402',2],
-  ['Sonia Valer y familia','967663644',2],
-  ['Roberto Valer y familia','941104795',2],
-  ['Luis Valer y familia','960745328',2],
-  ['Julio Rios y familia','991496661',2],
+  ['Cesar Valer','922456230',2],
+  ['Silvia Valer','982059402',2],
+  ['Sonia Valer','967663644',2],
+  ['Roberto Valer','941104795',2],
+  ['Luis Valer','960745328',2],
+  ['Julio Rios','991496661',2],
   ['Rubi Valverde','+34 673263023',1],
-  ['Jaime Loayza y familia','927936858',3],
+  ['Jaime Loayza','927936858',3],
   ['Daniel Loayza','960710051',2],
   ['Carolina Loayza','997719746',2],
   ['Martha Raymundo','963906619',1],
   ['Luis Loayza','920767840',1],
   ['Julio Loayza','924882660',1],
-  ['Brandon Cayetano y Esposa','945086322',2],
+  ['Brandon Cayetano','945086322',2],
   ['Sofia Peña','933872149',1],
-  ['Julio Mejia y familia','994726504',2],
+  ['Julio Mejia','994726504',2],
   ['Daniel Rojas','961780768',2],
   ['Piero Rios','999883121',1],
   ['Evelyn Sanjinez','953918855',1],
@@ -115,7 +115,7 @@ const invitados = [
   ['Kevin Cabello','937417368',2],
   ['Isabel','958992323',1],
   ['Sandra Florez','934401979',2],
-  ['Roger Quispe y Familia','962622163',2],
+  ['Roger Quispe','962622163',2],
   ['Miguel Espinoza','957942363',2],
   ['Liz Claudio','992991077',2],
   ['Cory Calero','998827736',2],
@@ -124,15 +124,18 @@ const invitados = [
   ['Jessela Avila','948018789',2],
 ];
 
-function primerNombre(n) { return n.split(' ')[0]; }
+function nombreCompleto(nombre) {
+  const partes = nombre.trim().split(' ');
+  return partes.length >= 2 ? partes[0] + ' ' + partes[1] : partes[0];
+}
 function pasesTexto(p) { return p === 1 ? '1 pase' : `${p} pases`; }
 
 function generarMensaje(nombre, pases) {
-  return `Hola, ${primerNombre(nombre)} 🤍
+  return `Hola, estimado(a) ${nombreCompleto(nombre)} 🤍
 
 Te escribe *Natalia Rodas*, wedding planner de Mayra & Kevin.
 
-En nombre de los novios, me complace escribirte personalmente para confirmar tu lugar en este día tan especial.
+En nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.
 
 📅 Sábado, 28 de marzo de 2026
 📍 Colán, Piura
@@ -145,7 +148,7 @@ https://maps.app.goo.gl/awUQPWxsM6zqL55KA
 🎁 *Lista de regalos:*
 https://sinenvolturas.com/mayraykevin/regalos
 
-Te pedimos gentilmente confirmar tu asistencia antes del *22 de marzo*, respondiendo *SÍ* o *NO* a este mensaje.
+Te pedimos gentilmente confirmar tu asistencia hasta el día *lunes 23 de marzo*, respondiendo *"Sí confirmo"* o *"No asisto"* a este mensaje.
 
 Con cariño,
 *Natalia Rodas*
