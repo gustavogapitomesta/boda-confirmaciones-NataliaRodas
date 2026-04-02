@@ -16,7 +16,7 @@
         .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         .guest-name { font-weight: 500; font-size: 16px; display: block; margin-bottom: 4px; }
         .guest-meta { font-size: 12px; color: #777; margin-bottom: 12px; }
-        .btn-copy { background: var(--rose); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        .btn-copy { background: var(--rose); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 500; cursor: pointer; transition: 0.3s; width: 100%; }
         .btn-copy.success { background: #1a7a4a; }
     </style>
 </head>
@@ -34,11 +34,9 @@
 </div>
 
 <script>
-// EL LINK ACORTADO PROPORCIONADO
 const LINK_BITLY = "https://bit.ly/BodaJennyRafael";
 
 const invitados = [
-    // --- LISTA JENNY ---
     ['LAURA CUSTODIO CARBAJAL','988750894',1], ['JORGE CUSTODIO TELLO','979287052',3],
     ['MARÍA CUSTODIO CARBAJAL','942192139',1], ['WENDY FIGUEROA CUSTODIO','920045100',1],
     ['SIMÓN CUSTODIO CARBAJAL','979181111',2], ['JUAN CUSTODIO ROJAS','968684589',2],
@@ -73,7 +71,6 @@ const invitados = [
     ['DR ROBERTO AZURIN','974218411',1], ['DR FERNANDO DEL CARPIO','955734558',2],
     ['DR QUISPE','985995020',1], ['TIRZA INTOR','979417609',2],
     ['DR COLLADO','992774885',1], ['DR RAUL REYES','994628059',3],
-    // --- LISTA RAFAEL ---
     ['ROCHE GUADALUPE','999454340',2], ['ELISA ARCE','954913746',1],
     ['ANDRES ARCE','990073751',2], ['JORGE FERNANDEZ','904542667',2],
     ['CARLA FERNANDEZ','+34602594714',2], ['MARIA ALEJANDRA FERNANDEZ','+56965305576',2],
@@ -106,36 +103,12 @@ function formatearSaludo(txt) {
 function generarMensaje(nombre, pases) {
     const nombreWP = formatearSaludo(nombre);
     const nPases = pases === 1 ? "1 pase" : `${pases} pases`;
-    
-    return `Hola, estimado(a) *${nombreWP}* 🤍
-
-Te escribe *Natalia Rodas*, wedding planner de Jenny & Rafael.
-
-En nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.
-
-📅 Sábado, 18 de abril de 2026
-📍 Lambayeque, Chiclayo
-
-Jenny y Rafael han reservado *${nPases}* exclusivamente para ti — porque no imaginan este momento sin tu presencia.
-
-📌 Ubicación de Iglesia San Pedro - Lambayeque:
-https://maps.app.goo.gl/Qw7gEYNtRYWScrUm6
-
-📌 Ubicación de la recepción - Jockey Club del Peru - Chiclayo:
-https://maps.app.goo.gl/YnXvxNKYMCtDsynC8
-
-Te pedimos gentilmente confirmar tu asistencia hasta el día miércoles 08 de abril, ingresando al siguiente link:
-${LINK_BITLY}
-
-Con cariño,
-*Natalia Rodas*
-_Wedding Planner · Boda Jenny & Rafael_`;
+    return `Hola, estimado(a) *${nombreWP}* 🤍\n\nTe escribe *Natalia Rodas*, wedding planner de Jenny & Rafael.\n\nEn nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.\n\n📅 Sábado, 18 de abril de 2026\n📍 Lambayeque, Chiclayo\n\nJenny y Rafael han reservado *${nPases}* exclusivamente para ti — porque no imaginan este momento sin tu presencia.\n\n📌 Ubicación de Iglesia San Pedro - Lambayeque:\nhttps://maps.app.goo.gl/Qw7gEYNtRYWScrUm6\n\n📌 Ubicación de la recepción - Jockey Club del Peru - Chiclayo:\nhttps://maps.app.goo.gl/YnXvxNKYMCtDsynC8\n\nTe pedimos gentilmente confirmar tu asistencia hasta el día miércoles 08 de abril, ingresando al siguiente link:\n${LINK_BITLY}\n\nCon cariño,\n*Natalia Rodas*\n_Wedding Planner · Boda Jenny & Rafael_`;
 }
 
 function copiar(idx, btn) {
     const [nombre,, pases] = invitados[idx];
     const texto = generarMensaje(nombre, pases);
-    
     navigator.clipboard.writeText(texto).then(() => {
         btn.classList.add('success');
         btn.innerText = '✅ ¡Mensaje Copiado!';
@@ -148,21 +121,23 @@ function copiar(idx, btn) {
 
 function filtrar() {
     const q = document.getElementById('searchInput').value.toLowerCase();
-    const lista = invitados
-        .map((inv, index) => ({...inv, id: index}))
-        .filter(inv => inv[0].toLowerCase().includes(q));
+    const filtrados = invitados.map((inv, index) => ({
+        nombre: inv[0],
+        celular: inv[1],
+        pases: inv[2],
+        id: index
+    })).filter(inv => inv.nombre.toLowerCase().includes(q));
     
     const div = document.getElementById('listaInvitados');
-    div.innerHTML = lista.map(inv => `
+    div.innerHTML = filtrados.map(inv => `
         <div class="card">
-            <span class="guest-name">${inv[0]}</span>
-            <div class="guest-meta">📱 ${inv[1]} | 🎟 ${inv[2]} pase(s)</div>
+            <span class="guest-name">${inv.nombre}</span>
+            <div class="guest-meta">📱 ${inv.celular} | 🎟 ${inv.pases} pase(s)</div>
             <button class="btn-copy" onclick="copiar(${inv.id}, this)">📋 Copiar para WhatsApp</button>
         </div>
     `).join('');
 }
 
-// Inicialización
 filtrar();
 </script>
 </body>
