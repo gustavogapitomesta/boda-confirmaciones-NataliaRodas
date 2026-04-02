@@ -3,50 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Mensajes Boda Mayra & Kevin 💌</title>
+<title>Mensajes Boda Jenny & Rafael 💌</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root { --rose:#b5294e;--rose-light:#f9e8ee;--rose-mid:#e8a0b8;--gold:#c9a96e;--dark:#1a1018;--muted:#7a6570;--bg:#fdf8f5;--card:#ffffff;--border:#f0e0e8; }
-  * { box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent; }
-  body { font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh; }
-  .header { background:var(--dark);padding:40px 20px 32px;text-align:center;position:relative;overflow:hidden; }
-  .header::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(181,41,78,.25) 0%,transparent 65%),radial-gradient(ellipse at 80% 30%,rgba(201,169,110,.15) 0%,transparent 55%);pointer-events:none; }
-  .header-eyebrow { font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;position:relative; }
-  .header-title { font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff;line-height:1.15;position:relative; }
-  .header-title em { font-style:italic;color:var(--rose-mid); }
-  .header-sub { font-size:13px;color:rgba(255,255,255,.45);margin-top:10px;position:relative;font-weight:300; }
-  .header-badge { display:inline-flex;align-items:center;gap:6px;background:rgba(181,41,78,.2);border:1px solid rgba(181,41,78,.35);color:var(--rose-mid);font-size:11px;font-weight:500;padding:5px 12px;border-radius:20px;margin-top:16px;position:relative; }
-  .search-wrap { padding:16px 16px 12px;position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border); }
-  .search-box { width:100%;padding:11px 16px 11px 40px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--card);color:var(--dark);outline:none;-webkit-appearance:none;transition:border-color .2s; }
-  .search-box:focus { border-color:var(--rose-mid); }
-  .search-icon { position:absolute;left:28px;top:26px;color:var(--muted);font-size:15px;pointer-events:none; }
-  .count-pill { font-size:11px;color:var(--muted);text-align:center;padding:8px 0 0;font-weight:400; }
-  .list { padding:16px;display:flex;flex-direction:column;gap:14px; }
-  .card { background:var(--card);border-radius:18px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s; }
-  .card:active { box-shadow:0 2px 16px rgba(181,41,78,.1); }
-  .card-header { display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;border-bottom:1px solid var(--rose-light);background:var(--rose-light);gap:10px; }
-  .card-info { flex:1;min-width:0; }
-  .card-num { font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);margin-bottom:2px; }
-  .card-name { font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-  .card-meta { font-size:11px;color:var(--muted);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap; }
-  .meta-pill { background:white;border:1px solid var(--border);border-radius:8px;padding:2px 8px;font-size:11px;color:var(--muted); }
-  .meta-pill.pases { background:var(--rose);color:white;border-color:var(--rose);font-weight:500; }
-  .card-body { padding:16px; }
-  .msg-preview { font-size:13px;line-height:1.65;color:var(--dark);white-space:pre-wrap;word-break:break-word;font-family:'DM Sans',sans-serif;font-weight:300; }
-  .btn-copy { display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:var(--rose);color:white;border:none;border-radius:0 0 18px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s;-webkit-appearance:none;letter-spacing:.3px; }
-  .btn-copy:active { background:#8f1e3a; }
-  .btn-copy.copied { background:#1a7a4a; }
-  .ornament { text-align:center;color:var(--rose-mid);font-size:18px;opacity:.5;margin:4px 0 -4px;letter-spacing:8px; }
-  .empty-state { text-align:center;padding:48px 24px;color:var(--muted);font-size:14px; }
-  .empty-state span { font-size:32px;display:block;margin-bottom:12px; }
+  :root {
+    --rose: #b5294e;
+    --rose-light: #f9e8ee;
+    --rose-mid: #e8a0b8;
+    --gold: #c9a96e;
+    --dark: #1a1018;
+    --muted: #7a6570;
+    --bg: #fdf8f5;
+    --card: #ffffff;
+    --border: #f0e0e8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
+  .header { background: var(--dark); padding: 40px 20px 32px; text-align: center; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(181,41,78,0.25) 0%, transparent 65%), radial-gradient(ellipse at 80% 30%, rgba(201,169,110,0.15) 0%, transparent 55%); pointer-events: none; }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; position: relative; }
+  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: #fff; line-height: 1.15; position: relative; }
+  .header-title em { font-style: italic; color: var(--rose-mid); }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 10px; position: relative; font-weight: 300; }
+  .header-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(181,41,78,0.2); border: 1px solid rgba(181,41,78,0.35); color: var(--rose-mid); font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 20px; margin-top: 16px; position: relative; }
+  .search-wrap { padding: 16px 16px 12px; position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .search-box { width: 100%; padding: 11px 16px 11px 40px; border: 1.5px solid var(--border); border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--card); color: var(--dark); outline: none; -webkit-appearance: none; transition: border-color 0.2s; }
+  .search-box:focus { border-color: var(--rose-mid); }
+  .search-icon { position: absolute; left: 28px; top: 26px; color: var(--muted); font-size: 15px; pointer-events: none; }
+  .count-pill { font-size: 11px; color: var(--muted); text-align: center; padding: 8px 0 0; font-weight: 400; }
+  .list { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .card { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.2s; }
+  .card:active { box-shadow: 0 2px 16px rgba(181,41,78,0.1); }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 12px; border-bottom: 1px solid var(--rose-light); background: var(--rose-light); gap: 10px; }
+  .card-info { flex: 1; min-width: 0; }
+  .card-num { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rose); margin-bottom: 2px; }
+  .card-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-meta { font-size: 11px; color: var(--muted); margin-top: 2px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-pill { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 2px 8px; font-size: 11px; color: var(--muted); }
+  .meta-pill.pases { background: var(--rose); color: white; border-color: var(--rose); font-weight: 500; }
+  .card-body { padding: 16px; }
+  .msg-preview { font-size: 13px; line-height: 1.65; color: var(--dark); white-space: pre-wrap; word-break: break-word; font-family: 'DM Sans', sans-serif; font-weight: 300; }
+  .btn-copy { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; background: var(--rose); color: white; border: none; border-radius: 0 0 18px 18px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; -webkit-appearance: none; letter-spacing: 0.3px; }
+  .btn-copy:active { background: #8f1e3a; }
+  .btn-copy.copied { background: #1a7a4a; }
+  .ornament { text-align: center; color: var(--rose-mid); font-size: 18px; opacity: 0.5; margin: 4px 0 -4px; letter-spacing: 8px; }
+  .empty-state { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 14px; }
+  .empty-state span { font-size: 32px; display: block; margin-bottom: 12px; }
 </style>
 </head>
 <body>
 <div class="header">
   <p class="header-eyebrow">Wedding Planner · Natalia Rodas</p>
-  <h1 class="header-title">Mayra <em>&</em> Kevin<br>💌</h1>
-  <p class="header-sub">Sábado 28 de marzo de 2026 · Colán, Piura</p>
-  <div class="header-badge">107 invitados · Confirmar hasta el 24 de marzo</div>
+  <h1 class="header-title">Jenny <em>&</em> Rafael<br>💌</h1>
+  <p class="header-sub">Sábado 18 de abril de 2026 · Lambayeque, Chiclayo</p>
+  <div class="header-badge">107 invitados · Confirmar hasta el 8 de abril</div>
 </div>
 <div class="search-wrap">
   <span class="search-icon">🔍</span>
@@ -56,144 +66,146 @@
 <div class="list" id="lista"></div>
 <script>
 const invitados = [
-  ['Gustavo Igreda','995242424',3],
-  ['Manuel Igreda Valer','998990835',2],
-  ['Jackeline Valer Valverde','932287000',3],
-  ['Brayan Acosta','977744614',2],
-  ['Kelly Raymundo','992205439',2],
-  ['Lizeth Raymundo','969813773',2],
-  ['Elvira Maravi','963606271',4],
-  ['Rosa León','957977238',3],
-  ['Rosaura Cardenas','948163051',1],
-  ['Cesar Valer','922456230',2],
-  ['Silvia Valer','982059402',2],
-  ['Sonia Valer','967663644',2],
-  ['Roberto Valer','941104795',2],
-  ['Luis Valer','960745328',2],
-  ['Julio Rios','991496661',2],
-  ['Rubi Valverde','+34673263023',1],
-  ['Jaime Loayza','927936858',3],
-  ['Daniel Loayza','960710051',2],
-  ['Carolina Loayza','997719746',2],
-  ['Martha Raymundo','963906619',1],
-  ['Luis Loayza','920767840',1],
-  ['Julio Loayza','924882660',1],
-  ['Brandon Cayetano','945086322',2],
-  ['Sofia Peña','933872149',1],
-  ['Julio Mejia','994726504',2],
-  ['Daniel Rojas','961780768',2],
-  ['Piero Rios','999883121',1],
-  ['Evelyn Sanjinez','953918855',1],
-  ['Sarita Santillan','945811878',1],
-  ['Claudia Avendaño','961622017',1],
-  ['Jorge Quintana','945599958',2],
-  ['David Huaman','989517304',1],
-  ['Manuel Travezaño','934686093',2],
-  ['Ronald Terreros','923172322',2],
-  ['Jessica Lopez','978992223',1],
-  ['Jhoel Quispe','921358077',1],
-  ['Sandra Sancarranco','969955328',2],
-  ['Jose Ma San','965358944',2],
-  ['Alex Calderon','987784006',2],
-  ['Lin Galvez','949997560',2],
-  ['Juan Carlos','956385929',2],
-  ['Ivan Agapito','962924837',2],
-  ['Kate Huaman','965362460',2],
-  ['Maria Miyasiro','976489719',2],
-  ['Augusto Lopez','943466005',2],
-  ['Junior Martinez','969320597',2],
-  ['Kevin Cabello','937417368',2],
-  ['Isabel','958992323',1],
-  ['Sandra Florez','934401979',2],
-  ['Roger Quispe','962622163',2],
-  ['Miguel Espinoza','957942363',2],
-  ['Liz Claudio','992991077',2],
-  ['Cory Calero','998827736',2],
-  ['Luis Valdivia','966160030',2],
-  ['Freddy Vara','957345001',2],
-  ['Jessela Avila','948018789',2],
-  ['Manuel Espinoza','976807971',4],
-  ['Marlon Espinoza','969979809',5],
-  ['Frank Espinoza','936260715',3],
-  ['Marco Espinoza','956529484',3],
-  ['Feliscar García','969848301',1],
-  ['Josefa Morales','969837663',2],
-  ['Magdalena Morales','953645644',2],
-  ['Jetsy Morales','961409701',2],
-  ['Gilmar Morales','996965964',2],
-  ['Felipe Morales','968246264',4],
-  ['Eder Morales','+5493517144760',2],
-  ['Jazmin Morales','+5493512026667',2],
-  ['Wilmer Madrid','969864014',4],
-  ['Joel Morales','969537621',4],
-  ['Cesar Elera','996090456',3],
-  ['Cesar Elera Morales','988324199',2],
-  ['Carmen Morales','998276250',4],
-  ['Teresa Espinoza','975257736',1],
-  ['Dany Espinoza','969064726',2],
-  ['Eda Espinoza','969115996',2],
-  ['Raúl Espinoza','949786828',1],
-  ['Dante Espinoza','947327800',1],
-  ['Carlos Antonio Espinoza','996541321',1],
-  ['Malena Espinoza','940180753',1],
-  ['Barbara Alfaro','+5493516601994',2],
-  ['Paola Lurgo','+5493516315176',2],
-  ['Josefina Mondino','+393667454857',1],
-  ['MayGrace Curay','950119778',2],
-  ['Angie Ma San','941804227',2],
-  ['Giovanna Samame','970786338',1],
-  ['Fatima Hidalgo','969385915',2],
-  ['Fiorella Paucar','976378525',2],
-  ['Lourdes Nuñez','948310649',2],
-  ['Lucía Cruz','936938033',1],
-  ['Castorita Montero','925319094',2],
-  ['Alessandra Adriazen','978751057',2],
-  ['Yesenia Sandoval','982597064',1],
-  ['Treicy Ramirez','944117426',1],
-  ['Diego Navarro','997587637',2],
-  ['Diego Chang','942873295',1],
-  ['Lina Miñano','997153597',2],
-  ['Anette Miranda','925464989',1],
-  ['Billy Hidalgo','923446554',2],
-  ['Sara Meneses','956154003',1],
-  ['Ale Pilco','961441905',2],
-  ['Gisella García','942191091',2],
-  ['Eva Espinoza','907076746',2],
-  ['Dina Aguilar','938252053',2],
-  ['Milagros Vega','934720582',2],
-  ['Alejandra Mendez','945187300',2],
-  ['Camila Carhuachinchay','947602503',1],
+  // --- Lista Jenny ---
+  ['Laura Custodio Carbajal','988750894',1],
+  ['Jorge Custodio Tello','979287052',3],
+  ['María Custodio Carbajal','942192139',1],
+  ['Wendy Figueroa Custodio','920045100',1],
+  ['Simón Custodio Carbajal','979181111',2],
+  ['Juan Custodio Rojas','968684589',2],
+  ['Beto Custodio Carbajal','990203116',1],
+  ['Wiston Aurich Lora','979910053',2],
+  ['Guillermo Aurich Custodio','978088884',2],
+  ['Wiston Aurich Custodio','977844752',2],
+  ['Yuliana Custodio Carbajal','978881904',3],
+  ['William Daniel Custodio Carbajal','979832772',2],
+  ['Carlos Custodio Carbajal','979603418',1],
+  ['Carmen Oyola','936940490',1],
+  ['Claudia Custodio Oyola','917412969',2],
+  ['Diana Custodio Oyola','920415391',2],
+  ['Marlene Custodio Carbajal','978006403',1],
+  ['Adriana Vargas Custodio','920741054',1],
+  ['Alejandro Vargas Custodio','996553633',2],
+  ['Liliana Custodio Carbajal','970858861',1],
+  ['Danny Valiente Custodio','979154444',2],
+  ['Roberto Valiente Custodio','+50378869658',1],
+  ['Nelly Carbajal Vargas','+13057426056',2],
+  ['Luis Cedrón Agapito','949903392',2],
+  ['Nely Lucia Custodio Mendoza','947011219',1],
+  ['Cristina Custodio Mendoza','955523605',1],
+  ['Edward Cotrina','979694440',2],
+  ['Angela Diaz Rioja','968747656',2],
+  ['Carlos Romero','964516907',2],
+  ['Dante Saavedra','979608528',2],
+  ['Juan Carlos Custodio Rosales','996344415',2],
+  ['Claudia Hidalgo Palacios','952240637',2],
+  ['Daniela Bendezu Barnuevo','977967920',2],
+  ['Jose Jimenez','974154725',2],
+  ['Jorge Huamanchumo Merino','947848647',2],
+  ['Juan Baca','959419819',2],
+  ['Emmanuel Hurtado Noblecilla','939492800',2],
+  ['Roger Conde Moncada','943544366',2],
+  ['Bryan Rafael Hidalgo','965153918',2],
+  ['Isabela García Vinatea','952180217',2],
+  ['Diana Pacheco Briceño','969660753',1],
+  ['Elena Aguilar Onofre','961093560',1],
+  ['Orializ Velasquez Del Carpio','984424782',1],
+  ['Dra Edith Cedeño Ascoy','991405055',2],
+  ['Fiorella Melendez Ramirez','959443971',1],
+  ['Cinthya Cieza','956019389',2],
+  ['Daniella Sevilla Silva','996940342',1],
+  ['Jhean Gabriel Gonzales','952041979',2],
+  ['Fiorela Corolado','913151643',2],
+  ['Aldo Rios Flores','933876179',2],
+  ['Alessandra Centeno','958195480',1],
+  ['Oscar Vargas','983107925',1],
+  ['Julia Vasquez','994937309',2],
+  ['Carlos Carcausto','955809800',2],
+  ['Marina Huaman','966816811',1],
+  ['Dr Elliot Rodriguez','994615716',2],
+  ['Dr Saire','980059216',2],
+  ['Ruht Villarroel','929283541',2],
+  ['Sonia Chumpitazi','955944993',1],
+  ['Rosina Ruiz','998619009',1],
+  ['Bettina Avalos','955203292',2],
+  ['Dr Jeison Farro','949937577',2],
+  ['Dr Roberto Azurin','974218411',1],
+  ['Dr Fernando Del Carpio','955734558',2],
+  ['Dr Quispe','985995020',1],
+  ['Tirza Intor','979417609',2],
+  ['Dr Collado','992774885',1],
+  ['Dr Raul Reyes','994628059',3],
+  // --- Lista Rafael ---
+  ['Roche Guadalupe','999454340',2],
+  ['Elisa Arce','954913746',1],
+  ['Andres Arce','990073751',2],
+  ['Jorge Fernandez','904542667',2],
+  ['Carla Fernandez','+34602594714',2],
+  ['Maria Alejandra Fernandez','+56965305576',2],
+  ['Maria Gracia Fernandez','944483194',2],
+  ['Cecilia Medina','946076277',2],
+  ['Ruth Valverde','961338057',1],
+  ['Cristina Navarro','970008801',2],
+  ['Nancy Valverde','985804706',1],
+  ['Frida Rosenthal','+19542990800',1],
+  ['Julio Puertas','975555559',2],
+  ['Gabriela Morales','996361957',2],
+  ['Gian Huaman','962542725',2],
+  ['Juan Carlos Zuñiga','959731513',2],
+  ['Julio Aguilar','938165413',2],
+  ['Rafael Berrios','996799447',2],
+  ['Joely Frisancho','958198166',3],
+  ['Gerardo Trelles','952280663',2],
+  ['Carolina Cabrera','942404048',2],
+  ['Jose Cornejo','991083092',2],
+  ['Nery Sarmiento','987004404',2],
+  ['Arcelia Reyes','986063363',2],
+  ['Richar Cortez','994638975',1],
+  ['Marcela Miranda','994684759',2],
+  ['Marco La Torre','990459964',2],
+  ['Edson Carhuapoma','922020805',2],
+  ['Antonio Skrabonja','989168305',2],
+  ['Emersson Lopez','964845661',2],
+  ['Eliana Ramirez','996481492',2],
+  ['Margarita Mendiola','993468783',2],
+  ['Carlos Ramos','963313227',2],
+  ['Antony Valles','917364463',2],
+  ['Jose Ugarte','99956303',2],
+  ['William Carreño','935484057',2],
+  ['Alfredo Callo','942461164',2],
+  ['Abdon Villegas','950152721',2],
+  ['Paulo Guzman','979658550',2],
 ];
 
 function nombreCompleto(nombre) {
-  const p = nombre.trim().split(' ');
-  return p.length >= 2 ? p[0] + ' ' + p[1] : p[0];
+  const partes = nombre.trim().split(' ');
+  return partes.length >= 2 ? partes[0] + ' ' + partes[1] : partes[0];
 }
 function pasesTexto(p) { return p === 1 ? '1 pase' : `${p} pases`; }
 
 function generarMensaje(nombre, pases) {
   return `Hola, estimado(a) ${nombreCompleto(nombre)} 🤍
 
-Te escribe *Natalia Rodas*, wedding planner de Mayra & Kevin.
+Te escribe *Natalia Rodas*, wedding planner de Jenny & Rafael.
 
 En nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.
 
-📅 Sábado, 28 de marzo de 2026
-📍 Colán, Piura
+📅 Sábado, 18 de abril de 2026
+📍 Lambayeque, Chiclayo
 
-Mayra y Kevin han reservado *${pasesTexto(pases)}* exclusivamente para ti — porque no imaginan este momento sin tu presencia.
+Jenny y Rafael han reservado *${pasesTexto(pases)}* exclusivamente para ti — porque no imaginan este momento sin tu presencia.
 
-📌 *Ubicación de la recepción:*
-https://maps.app.goo.gl/awUQPWxsM6zqL55KA
+📌 *Ubicación de Iglesia San Pedro - Lambayeque:*
+https://maps.app.goo.gl/Qw7gEYNtRYWScrUm6
 
-🎁 *Lista de regalos:*
-https://sinenvolturas.com/mayraykevin/regalos
+📌 *Ubicación de la recepción - Jockey Club del Peru - Chiclayo:*
+https://maps.app.goo.gl/YnXvxNKYMCtDsynC8
 
-Te pedimos gentilmente confirmar tu asistencia hasta el día *martes 24 de marzo*, respondiendo *"Sí confirmo"* o *"No asisto"* a este mensaje.
+Te pedimos gentilmente confirmar tu asistencia hasta el día *miércoles 08 de abril*, respondiendo *"Sí confirmo"* o *"No asisto"* a este mensaje.
 
 Con cariño,
 *Natalia Rodas*
-_Wedding Planner · Boda Mayra & Kevin_`;
+_Wedding Planner · Boda Jenny & Rafael_`;
 }
 
 function copiar(idx, btn) {
