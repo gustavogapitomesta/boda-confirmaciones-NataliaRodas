@@ -1,220 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Gestión de Invitados - Jenny & Rafael 💌</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --rose: #b5294e;
-    --rose-light: #f9e8ee;
-    --gold: #c9a96e;
-    --dark: #1a1018;
-    --muted: #7a6570;
-    --bg: #fdf8f5;
-    --card: #ffffff;
-    --border: #f0e0e8;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
-  .header { background: var(--dark); padding: 40px 20px; text-align: center; }
-  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600; color: #fff; }
-  .search-wrap { padding: 16px; position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); }
-  .search-box { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; outline: none; }
-  .list { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
-  .card { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-  .card-header { padding: 16px; background: var(--rose-light); border-bottom: 1px solid var(--border); }
-  .card-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; }
-  .card-body { padding: 16px; }
-  .msg-preview { font-size: 12.5px; line-height: 1.6; color: var(--dark); white-space: pre-wrap; background: #fafafa; padding: 12px; border-radius: 8px; border: 1px solid #f0f0f0; margin-bottom: 12px; }
-  .btn-copy { display: block; width: 100%; padding: 14px; background: var(--rose); color: white; border: none; border-radius: 10px; font-weight: 500; cursor: pointer; margin-bottom: 10px; }
-  .btn-copy.copied { background: #1a7a4a; }
-  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .btn-action { padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; border: 1.5px solid var(--rose); }
-  .btn-yes { background: var(--rose); color: white; }
-  .btn-no { background: transparent; color: var(--rose); }
-  .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.85); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Wedding Planner - Jenny & Rafael</title>
+    <style>
+        :root { --rose: #b5294e; --bg: #fdf8f5; --dark: #1a1018; }
+        body { font-family: sans-serif; background: var(--bg); padding: 20px; }
+        .search-box { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 20px; font-size: 16px; }
+        .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+        .name { font-weight: bold; font-size: 18px; color: var(--dark); }
+        .btn-copy { background: var(--rose); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+    </style>
 </head>
 <body>
+    <h2>Gestión de Invitados 📋</h2>
+    <input type="text" class="search-box" id="search" placeholder="Buscar invitado..." oninput="filtrar()">
+    <div id="lista"></div>
 
-<div id="loader" class="loading-overlay">
-  <div style="color: var(--rose); font-weight: 600;">Procesando confirmación...</div>
-</div>
+    <script>
+        const BASE_URL_INVITADO = "https://tu-usuario.github.io/boda/confirmar.html"; // URL del SEGUNDO HTML
+        const invitados = [
+            ['Laura Custodio Carbajal', '988750894', 1],
+            ['Jorge Custodio Tello', '979287052', 3],
+            // ... agregar el resto de la lista aquí
+        ];
 
-<div class="header">
-  <p class="header-eyebrow">Wedding Planner · Natalia Rodas</p>
-  <h1 class="header-title">Jenny & Rafael 💌</h1>
-</div>
+        function generarMensaje(nombre, pases, index) {
+            const nombreSaludo = nombre.split(' ')[0] + " " + (nombre.split(' ')[1] || "");
+            const linkConfirmar = `${BASE_URL_INVITADO}?id=${index}`;
+            return `Hola, estimado(a) ${nombreSaludo} 🤍\n\nTe escribe Natalia Rodas, wedding planner de Jenny & Rafael. Jenny y Rafael han reservado ${pases} pases para ti.\n\nPor favor, confirma tu asistencia aquí:\n${linkConfirmar}\n\n¡Gracias!`;
+        }
 
-<div class="search-wrap">
-  <input class="search-box" type="search" placeholder="Buscar por nombre..." oninput="filtrar(this.value)">
-</div>
+        function copiar(idx, btn) {
+            const [nombre,, pases] = invitados[idx];
+            navigator.clipboard.writeText(generarMensaje(nombre, pases, idx));
+            btn.innerText = "✅ ¡Copiado!";
+            setTimeout(() => btn.innerText = "📋 Copiar para WhatsApp", 2000);
+        }
 
-<div class="list" id="lista"></div>
-
-<script>
-// --- CONFIGURACIÓN ---
-const WEB_APP_URL = "TU_URL_DE_APPS_SCRIPT_AQUI"; // Reemplaza esto
-const BASE_URL = "https://gustavogapitomesta.github.io/boda-confirmaciones-NataliaRodas/"; 
-
-const invitados = [
-  // --- Lista Jenny ---
-  ['Laura Custodio Carbajal','988750894',1], ['Jorge Custodio Tello','979287052',3],
-  ['María Custodio Carbajal','942192139',1], ['Wendy Figueroa Custodio','920045100',1],
-  ['Simón Custodio Carbajal','979181111',2], ['Juan Custodio Rojas','968684589',2],
-  ['Beto Custodio Carbajal','990203116',1], ['Wiston Aurich Lora','979910053',2],
-  ['Guillermo Aurich Custodio','978088884',2], ['Wiston Aurich Custodio','977844752',2],
-  ['Yuliana Custodio Carbajal','978881904',3], ['William Daniel Custodio Carbajal','979832772',2],
-  ['Carlos Custodio Carbajal','979603418',1], ['Carmen Oyola','936940490',1],
-  ['Claudia Custodio Oyola','917412969',2], ['Diana Custodio Oyola','920415391',2],
-  ['Marlene Custodio Carbajal','978006403',1], ['Adriana Vargas Custodio','920741054',1],
-  ['Alejandro Vargas Custodio','996553633',2], ['Liliana Custodio Carbajal','970858861',1],
-  ['Danny Valiente Custodio','979154444',2], ['Roberto Valiente Custodio','+50378869658',1],
-  ['Nelly Carbajal Vargas','+13057426056',2], ['Luis Cedrón Agapito','949903392',2],
-  ['Nely Lucia Custodio Mendoza','947011219',1], ['Cristina Custodio Mendoza','955523605',1],
-  ['Edward Cotrina','979694440',2], ['Angela Diaz Rioja','968747656',2],
-  ['Carlos Romero','964516907',2], ['Dante Saavedra','979608528',2],
-  ['Juan Carlos Custodio Rosales','996344415',2], ['Claudia Hidalgo Palacios','952240637',2],
-  ['Daniela Bendezu Barnuevo','977967920',2], ['Jose Jimenez','974154725',2],
-  ['Jorge Huamanchumo Merino','947848647',2], ['Juan Baca','959419819',2],
-  ['Emmanuel Hurtado Noblecilla','939492800',2], ['Roger Conde Moncada','943544366',2],
-  ['Bryan Rafael Hidalgo','965153918',2], ['Isabela García Vinatea','952180217',2],
-  ['Diana Pacheco Briceño','969660753',1], ['Elena Aguilar Onofre','961093560',1],
-  ['Orializ Velasquez Del Carpio','984424782',1], ['Dra Edith Cedeño Ascoy','991405055',2],
-  ['Fiorella Melendez Ramirez','959443971',1], ['Cinthya Cieza','956019389',2],
-  ['Daniella Sevilla Silva','996940342',1], ['Jhean Gabriel Gonzales','952041979',2],
-  ['Fiorela Corolado','913151643',2], ['Aldo Rios Flores','933876179',2],
-  ['Alessandra Centeno','958195480',1], ['Oscar Vargas','983107925',1],
-  ['Julia Vasquez','994937309',2], ['Carlos Carcausto','955809800',2],
-  ['Marina Huaman','966816811',1], ['Dr Elliot Rodriguez','994615716',2],
-  ['Dr Saire','980059216',2], ['Ruht Villarroel','929283541',2],
-  ['Sonia Chumpitazi','955944993',1], ['Rosina Ruiz','998619009',1],
-  ['Bettina Avalos','955203292',2], ['Dr Jeison Farro','949937577',2],
-  ['Dr Roberto Azurin','974218411',1], ['Dr Fernando Del Carpio','955734558',2],
-  ['Dr Quispe','985995020',1], ['Tirza Intor','979417609',2],
-  ['Dr Collado','992774885',1], ['Dr Raul Reyes','994628059',3],
-  // --- Lista Rafael ---
-  ['Roche Guadalupe','999454340',2], ['Elisa Arce','954913746',1],
-  ['Andres Arce','990073751',2], ['Jorge Fernandez','904542667',2],
-  ['Carla Fernandez','+34602594714',2], ['Maria Alejandra Fernandez','+56965305576',2],
-  ['Maria Gracia Fernandez','944483194',2], ['Cecilia Medina','946076277',2],
-  ['Ruth Valverde','961338057',1], ['Cristina Navarro','970008801',2],
-  ['Nancy Valverde','985804706',1], ['Frida Rosenthal','+19542990800',1],
-  ['Julio Puertas','975555559',2], ['Gabriela Morales','996361957',2],
-  ['Gian Huaman','962542725',2], ['Juan Carlos Zuñiga','959731513',2],
-  ['Julio Aguilar','938165413',2], ['Rafael Berrios','996799447',2],
-  ['Joely Frisancho','958198166',3], ['Gerardo Trelles','952280663',2],
-  ['Carolina Cabrera','942404048',2], ['Jose Cornejo','991083092',2],
-  ['Nery Sarmiento','987004404',2], ['Arcelia Reyes','986063363',2],
-  ['Richar Cortez','994638975',1], ['Marcela Miranda','994684759',2],
-  ['Marco La Torre','990459964',2], ['Edson Carhuapoma','922020805',2],
-  ['Antonio Skrabonja','989168305',2], ['Emersson Lopez','964845661',2],
-  ['Eliana Ramirez','996481492',2], ['Margarita Mendiola','993468783',2],
-  ['Carlos Ramos','963313227',2], ['Antony Valles','917364463',2],
-  ['Jose Ugarte','99956303',2], ['William Carreño','935484057',2],
-  ['Alfredo Callo','942461164',2], ['Abdon Villegas','950152721',2],
-  ['Paulo Guzman','979658550',2]
-];
-
-function obtenerNombreYApellido(nombreCompleto) {
-  const partes = nombreCompleto.trim().split(/\s+/);
-  if (partes.length >= 2) {
-    return `${partes[0]} ${partes[1]}`;
-  }
-  return partes[0];
-}
-
-function generarMensaje(nombreFull, pases, index) {
-  const saludoNombre = obtenerNombreYApellido(nombreFull);
-  const link = `${BASE_URL}?id=${index}`;
-  const pasesTxt = pases === 1 ? '1 pase' : `${pases} pases`;
-
-  return `Hola, estimado(a) ${saludoNombre} 🤍
-
-Te escribe Natalia Rodas, wedding planner de Jenny & Rafael.
-
-En nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.
-
-📅 Sábado, 18 de abril de 2026
-📍 Lambayeque, Chiclayo
-
-Jenny y Rafael han reservado ${pasesTxt} exclusivamente para ti — porque no imaginan este momento sin tu presencia.
-
-📌 Ubicación de Iglesia San Pedro - Lambayeque:
-https://maps.app.goo.gl/Qw7gEYNtRYWScrUm6
-
-📌 Ubicación de la recepción - Jockey Club del Peru - Chiclayo:
-https://maps.app.goo.gl/YnXvxNKYMCtDsynC8
-
-Te pedimos gentilmente confirmar tu asistencia hasta el día miércoles 08 de abril, ingresando al siguiente link:
-${link}
-
-Con cariño,
-Natalia Rodas
-Wedding Planner · Boda Jenny & Rafael`;
-}
-
-async function registrarEnSheets(idx, respuesta) {
-  const [nombre,, pases] = invitados[idx];
-  const loader = document.getElementById('loader');
-  loader.style.display = 'flex';
-
-  try {
-    await fetch(WEB_APP_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, pases, respuesta })
-    });
-    alert(`Se registró: "${respuesta}" para ${nombre}.`);
-  } catch (e) {
-    alert("Error de conexión. Intente nuevamente.");
-  } finally {
-    loader.style.display = 'none';
-  }
-}
-
-function copiarAlPortapapeles(idx, btn) {
-  const [nombre,, pases] = invitados[idx];
-  const texto = generarMensaje(nombre, pases, idx);
-  navigator.clipboard.writeText(texto).then(() => {
-    btn.classList.add('copied');
-    btn.textContent = '✓ ¡Copiado!';
-    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋 Copiar para WhatsApp'; }, 2000);
-  });
-}
-
-function mostrarInvitados(datos) {
-  const listado = document.getElementById('lista');
-  listado.innerHTML = datos.map(([idx, nombre, cel, pases]) => `
-    <div class="card">
-      <div class="card-header">
-        <div class="card-name">${nombre}</div>
-        <div style="font-size:11px; color: var(--muted)">📱 ${cel} | 🎟 ${pases === 1 ? '1 pase' : pases + ' pases'}</div>
-      </div>
-      <div class="card-body">
-        <div class="msg-preview">${generarMensaje(nombre, pases, idx)}</div>
-        <button class="btn-copy" onclick="copiarAlPortapapeles(${idx}, this)">📋 Copiar para WhatsApp</button>
-        <div class="actions">
-          <button class="btn-action btn-yes" onclick="registrarEnSheets(${idx}, 'Sí confirmo')">Sí confirmo</button>
-          <button class="btn-action btn-no" onclick="registrarEnSheets(${idx}, 'No asisto')">No asisto</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function filtrar(termino) {
-  const t = termino.toLowerCase();
-  const filtrados = invitados.map((inv, i) => [i, ...inv]).filter(f => f[1].toLowerCase().includes(t));
-  mostrarInvitados(filtrados);
-}
-
-// Carga inicial
-mostrarInvitados(invitados.map((inv, i) => [i, ...inv]));
-</script>
+        function filtrar() {
+            const q = document.getElementById('search').value.toLowerCase();
+            const filtered = invitados.map((inv, i) => [i, ...inv]).filter(inv => inv[1].toLowerCase().includes(q));
+            document.getElementById('lista').innerHTML = filtered.map(inv => `
+                <div class="card">
+                    <div class="name">${inv[1]}</div>
+                    <button class="btn-copy" onclick="copiar(${inv[0]}, this)">📋 Copiar para WhatsApp</button>
+                </div>
+            `).join('');
+        }
+        filtrar();
+    </script>
 </body>
 </html>
