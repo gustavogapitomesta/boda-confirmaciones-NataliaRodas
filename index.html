@@ -3,53 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión Wedding Planner - Jenny & Rafael</title>
+    <title>Panel Natalia Rodas - Jenny & Rafael</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root { --rose: #b5294e; --bg: #fdf8f5; --dark: #1a1018; }
-        body { font-family: sans-serif; background: var(--bg); padding: 20px; }
-        .search-box { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 20px; font-size: 16px; }
-        .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
-        .name { font-weight: bold; font-size: 18px; color: var(--dark); }
-        .btn-copy { background: var(--rose); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        :root { --rose: #b5294e; --gold: #c9a96e; --dark: #1a1018; --bg: #fdf8f5; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 5px; }
+        .wp-tag { font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; outline: none; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .guest-name { font-weight: 500; font-size: 16px; display: block; margin-bottom: 4px; }
+        .guest-meta { font-size: 12px; color: #777; margin-bottom: 12px; }
+        .btn-copy { background: var(--rose); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        .btn-copy.success { background: #1a7a4a; }
     </style>
 </head>
 <body>
-    <h2>Gestión de Invitados 📋</h2>
-    <input type="text" class="search-box" id="search" placeholder="Buscar invitado..." oninput="filtrar()">
-    <div id="lista"></div>
 
-    <script>
-        const BASE_URL_INVITADO = "https://tu-usuario.github.io/boda/confirmar.html"; // URL del SEGUNDO HTML
-        const invitados = [
-            ['Laura Custodio Carbajal', '988750894', 1],
-            ['Jorge Custodio Tello', '979287052', 3],
-            // ... agregar el resto de la lista aquí
-        ];
+<div class="container">
+    <header>
+        <div class="wp-tag">Wedding Planner · Natalia Rodas</div>
+        <h1>Jenny & Rafael</h1>
+        <p style="font-size: 13px;">Envío de Invitaciones Personalizadas</p>
+    </header>
 
-        function generarMensaje(nombre, pases, index) {
-            const nombreSaludo = nombre.split(' ')[0] + " " + (nombre.split(' ')[1] || "");
-            const linkConfirmar = `${BASE_URL_INVITADO}?id=${index}`;
-            return `Hola, estimado(a) ${nombreSaludo} 🤍\n\nTe escribe Natalia Rodas, wedding planner de Jenny & Rafael. Jenny y Rafael han reservado ${pases} pases para ti.\n\nPor favor, confirma tu asistencia aquí:\n${linkConfirmar}\n\n¡Gracias!`;
-        }
+    <input type="text" class="search-box" id="searchInput" placeholder="Buscar invitado por nombre..." oninput="filtrar()">
+    <div id="listaInvitados"></div>
+</div>
 
-        function copiar(idx, btn) {
-            const [nombre,, pases] = invitados[idx];
-            navigator.clipboard.writeText(generarMensaje(nombre, pases, idx));
-            btn.innerText = "✅ ¡Copiado!";
-            setTimeout(() => btn.innerText = "📋 Copiar para WhatsApp", 2000);
-        }
+<script>
+// EL LINK ACORTADO PROPORCIONADO
+const LINK_BITLY = "https://bit.ly/BodaJennyRafael";
 
-        function filtrar() {
-            const q = document.getElementById('search').value.toLowerCase();
-            const filtered = invitados.map((inv, i) => [i, ...inv]).filter(inv => inv[1].toLowerCase().includes(q));
-            document.getElementById('lista').innerHTML = filtered.map(inv => `
-                <div class="card">
-                    <div class="name">${inv[1]}</div>
-                    <button class="btn-copy" onclick="copiar(${inv[0]}, this)">📋 Copiar para WhatsApp</button>
-                </div>
-            `).join('');
-        }
-        filtrar();
-    </script>
+const invitados = [
+    // --- LISTA JENNY ---
+    ['LAURA CUSTODIO CARBAJAL','988750894',1], ['JORGE CUSTODIO TELLO','979287052',3],
+    ['MARÍA CUSTODIO CARBAJAL','942192139',1], ['WENDY FIGUEROA CUSTODIO','920045100',1],
+    ['SIMÓN CUSTODIO CARBAJAL','979181111',2], ['JUAN CUSTODIO ROJAS','968684589',2],
+    ['BETO CUSTODIO CARBAJAL','990203116',1], ['WISTON AURICH LORA','979910053',2],
+    ['GUILLERMO AURICH CUSTODIO','978088884',2], ['WISTON AURICH CUSTODIO','977844752',2],
+    ['YULIANA CUSTODIO CARBAJAL','978881904',3], ['WILLIAM DANIEL CUSTODIO CARBAJAL','979832772',2],
+    ['CARLOS CUSTODIO CARBAJAL','979603418',1], ['CARMEN OYOLA','936940490',1],
+    ['CLAUDIA CUSTODIO OYOLA','917412969',2], ['DIANA CUSTODIO OYOLA','920415391',2],
+    ['MARLENE CUSTODIO CARBAJAL','978006403',1], ['ADRIANA VARGAS CUSTODIO','920741054',1],
+    ['ALEJANDRO VARGAS CUSTODIO','996553633',2], ['LILIANA CUSTODIO CARBAJAL','970858861',1],
+    ['DANNY VALIENTE CUSTODIO','979154444',2], ['ROBERTO VALIENTE CUSTODIO','+50378869658',1],
+    ['NELLY CARBAJAL VARGAS','+13057426056',2], ['LUIS CEDRÓN AGAPITO','949903392',2],
+    ['NELY LUCIA CUSTODIO MENDOZA','947011219',1], ['CRISTINA CUSTODIO MENDOZA','955523605',1],
+    ['EDWARD COTRINA','979694440',2], ['ANGELA DIAZ RIOJA','968747656',2],
+    ['CARLOS ROMERO','964516907',2], ['DANTE SAAVEDRA','979608528',2],
+    ['JUAN CARLOS CUSTODIO ROSALES','996344415',2], ['CLAUDIA HIDALGO PALACIOS','952240637',2],
+    ['DANIELA BENDEZU BARNUEVO','977967920',2], ['JOSE JIMENEZ','974154725',2],
+    ['JORGE HUAMANCHUMO MERINO','947848647',2], ['JUAN BACA','959419819',2],
+    ['EMMANUEL HURTADO NOBLECILLA','939492800',2], ['ROGER CONDE MONCADA','943544366',2],
+    ['BRYAN RAFAEL HIDALGO','965153918',2], ['ISABELA GARCÍA VINATEA','952180217',2],
+    ['DIANA PACHECO BRICEÑO','969660753',1], ['ELENA AGUILAR ONOFRE','961093560',1],
+    ['ORIALIZ VELASQUEZ DEL CARPIO','984424782',1], ['DRA EDITH CEDEÑO ASCOY','991405055',2],
+    ['FIORELLA MELENDEZ RAMIREZ','959443971',1], ['CINTHYA CIEZA','956019389',2],
+    ['DANIELLA SEVILLA SILVA','996940342',1], ['JHEAN GABRIEL GONZALES','952041979',2],
+    ['FIORELA COROLADO','913151643',2], ['ALDO RIOS FLORES','933876179',2],
+    ['ALESSANDRA CENTENO','958195480',1], ['OSCAR VARGAS','983107925',1],
+    ['JULIA VASQUEZ','994937309',2], ['CARLOS CARCAUSTO','955809800',2],
+    ['MARINA HUAMAN','966816811',1], ['DR ELLIOT RODRIGUEZ','994615716',2],
+    ['DR SAIRE','980059216',2], ['RUHT VILLARROEL','929283541',2],
+    ['SONIA CHUMPITAZI','955944993',1], ['ROSINA RUIZ','998619009',1],
+    ['BETTINA AVALOS','955203292',2], ['DR JEISON FARRO','949937577',2],
+    ['DR ROBERTO AZURIN','974218411',1], ['DR FERNANDO DEL CARPIO','955734558',2],
+    ['DR QUISPE','985995020',1], ['TIRZA INTOR','979417609',2],
+    ['DR COLLADO','992774885',1], ['DR RAUL REYES','994628059',3],
+    // --- LISTA RAFAEL ---
+    ['ROCHE GUADALUPE','999454340',2], ['ELISA ARCE','954913746',1],
+    ['ANDRES ARCE','990073751',2], ['JORGE FERNANDEZ','904542667',2],
+    ['CARLA FERNANDEZ','+34602594714',2], ['MARIA ALEJANDRA FERNANDEZ','+56965305576',2],
+    ['MARIA GRACIA FERNANDEZ','944483194',2], ['CECILIA MEDINA','946076277',2],
+    ['RUTH VALVERDE','961338057',1], ['CRISTINA NAVARRO','970008801',2],
+    ['NANCY VALVERDE','985804706',1], ['FRIDA ROSENTHAL','+19542990800',1],
+    ['JULIO PUERTAS','975555559',2], ['GABRIELA MORALES','996361957',2],
+    ['GIAN HUAMAN','962542725',2], ['JUAN CARLOS ZUÑIGA','959731513',2],
+    ['JULIO AGUILAR','938165413',2], ['RAFAEL BERRIOS','996799447',2],
+    ['JOELY FRISANCHO','958198166',3], ['GERARDO TRELLES','952280663',2],
+    ['CAROLINA CABRERA','942404048',2], ['JOSE CORNEJO','991083092',2],
+    ['NERY SARMIENTO','987004404',2], ['ARCELIA REYES','986063363',2],
+    ['RICHAR CORTEZ','994638975',1], ['MARCELA MIRANDA','994684759',2],
+    ['MARCO LA TORRE','990459964',2], ['EDSON CARHUAPOMA','922020805',2],
+    ['ANTONIO SKRABONJA','989168305',2], ['EMERSSON LOPEZ','964845661',2],
+    ['ELIANA RAMIREZ','996481492',2], ['MARGARITA MENDIOLA','993468783',2],
+    ['CARLOS RAMOS','963313227',2], ['ANTONY VALLES','917364463',2],
+    ['JOSE UGARTE','99956303',2], ['WILLIAM CARREÑO','935484057',2],
+    ['ALFREDO CALLO','942461164',2], ['ABDON VILLEGAS','950152721',2],
+    ['PAULO GUZMAN','979658550',2]
+];
+
+function formatearSaludo(txt) {
+    const p = txt.trim().split(/\s+/);
+    const nombre = p[0] || "";
+    const apellido = p[1] || "";
+    return (nombre + " " + apellido).toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function generarMensaje(nombre, pases) {
+    const nombreWP = formatearSaludo(nombre);
+    const nPases = pases === 1 ? "1 pase" : `${pases} pases`;
+    
+    return `Hola, estimado(a) *${nombreWP}* 🤍
+
+Te escribe *Natalia Rodas*, wedding planner de Jenny & Rafael.
+
+En nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.
+
+📅 Sábado, 18 de abril de 2026
+📍 Lambayeque, Chiclayo
+
+Jenny y Rafael han reservado *${nPases}* exclusivamente para ti — porque no imaginan este momento sin tu presencia.
+
+📌 Ubicación de Iglesia San Pedro - Lambayeque:
+https://maps.app.goo.gl/Qw7gEYNtRYWScrUm6
+
+📌 Ubicación de la recepción - Jockey Club del Peru - Chiclayo:
+https://maps.app.goo.gl/YnXvxNKYMCtDsynC8
+
+Te pedimos gentilmente confirmar tu asistencia hasta el día miércoles 08 de abril, ingresando al siguiente link:
+${LINK_BITLY}
+
+Con cariño,
+*Natalia Rodas*
+_Wedding Planner · Boda Jenny & Rafael_`;
+}
+
+function copiar(idx, btn) {
+    const [nombre,, pases] = invitados[idx];
+    const texto = generarMensaje(nombre, pases);
+    
+    navigator.clipboard.writeText(texto).then(() => {
+        btn.classList.add('success');
+        btn.innerText = '✅ ¡Mensaje Copiado!';
+        setTimeout(() => {
+            btn.classList.remove('success');
+            btn.innerText = '📋 Copiar para WhatsApp';
+        }, 2000);
+    });
+}
+
+function filtrar() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const lista = invitados
+        .map((inv, index) => ({...inv, id: index}))
+        .filter(inv => inv[0].toLowerCase().includes(q));
+    
+    const div = document.getElementById('listaInvitados');
+    div.innerHTML = lista.map(inv => `
+        <div class="card">
+            <span class="guest-name">${inv[0]}</span>
+            <div class="guest-meta">📱 ${inv[1]} | 🎟 ${inv[2]} pase(s)</div>
+            <button class="btn-copy" onclick="copiar(${inv.id}, this)">📋 Copiar para WhatsApp</button>
+        </div>
+    `).join('');
+}
+
+// Inicialización
+filtrar();
+</script>
 </body>
 </html>
