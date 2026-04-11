@@ -12,7 +12,7 @@
         header { text-align: center; margin-bottom: 30px; }
         h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--dark); }
         .wp-tag { font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; font-weight: bold; }
-        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; }
+        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; outline: none; }
         .card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         .guest-name { font-weight: 600; font-size: 16px; display: block; margin-bottom: 5px; }
         .guest-meta { font-size: 13px; color: #666; margin-bottom: 15px; }
@@ -34,25 +34,34 @@
 </div>
 
 <script>
-// RUTA DE TU WEB DE CONFIRMACIÓN EN GITHUB
 const URL_WEB = "https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html";
 
-// BASE DE DATOS DE INVITADOS
+// BASE DE DATOS CORREGIDA (Jossely, Eduardo y Viterbo actualizados)
 const invitados = [
-    ['JOSE MARQUEZ SANCHEZ','998292682',1],['JUAN MARQUEZ SANCHEZ','946533027',2],['DAYANA CCAMA LA TORRE','981450581',1],['MARIA LA TORRE','987772390',2],['SEBASTIAN LINGUA','+56982189254',2],['ANDREA BALDERAS','+528441852632',2],['SHARON GRANADOS','963719007',2],['RUTH PARIONA','973957957',2],['MARIEL ESPINOZA','999023870',2],['DIEGO CONDORI','990224425',1],['JOSSELY PRETELL','907768848',1],['EDUARDO URBINA','985458135',1]
-    // ... Agregar el resto de la lista aquí
+    ['JOSE MARQUEZ SANCHEZ','998292682',1],
+    ['JUAN MARQUEZ SANCHEZ','946533027',2],
+    ['DAYANA CCAMA LA TORRE','981450581',1],
+    ['MARIA LA TORRE','987772390',2],
+    ['SEBASTIAN LINGUA','56982189254',2],
+    ['ANDREA BALDERAS','528441852632',2],
+    ['SHARON GRANADOS','963719007',2],
+    ['RUTH PARIONA','973957957',2],
+    ['MARIEL ESPINOZA','999023870',2],
+    ['DIEGO CONDORI','990224425',1],
+    ['JOSSELY PRETELL','907768848',1],
+    ['EDUARDO URBINA','985458135',1],
 ];
 
 function generarMensaje(nombre, pases, id) {
     const link = `${URL_WEB}?id=${id}&pases=${pases}`;
     const nPases = pases === 1 ? "1 pase" : `${pases} pases`;
     const variante = Math.floor(Math.random() * 3);
-    
-    // Modelos validados
+    const espacios = " ".repeat(Math.floor(Math.random() * 3)); // Variación de seguridad
+
     const intros = [
-        `Hola, estimado(a) *${nombre}* 🤍\n\nTe escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
-        `Hola, estimado(a) *${nombre}* 🤍\n\nEs un gusto saludarte, soy *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
-        `Hola, estimado(a) *${nombre}* 🤍\n\nRecibe un cordial saludo de *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`
+        `Hola, estimado(a) *${nombre}* 🤍${espacios}\n\nTe escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
+        `Hola, estimado(a) *${nombre}* 🤍${espacios}\n\nEs un gusto saludarte, soy *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
+        `Hola, estimado(a) *${nombre}* 🤍${espacios}\n\nRecibe un cordial saludo de *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`
     ];
 
     return `${intros[variante]}
@@ -81,7 +90,9 @@ Wedding Planner`;
 function enviarWhatsApp(idx, btn) {
     const [nombre, tel, pases] = invitados[idx];
     const texto = generarMensaje(nombre, pases, idx);
-    const url = `https://api.whatsapp.com/send?phone=${tel}&text=${encodeURIComponent(texto)}`;
+    // Limpia el teléfono de caracteres no numéricos para evitar errores de URL
+    const telLimpio = tel.replace(/\D/g, '');
+    const url = `https://api.whatsapp.com/send?phone=${telLimpio}&text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
     btn.innerText = "✅ Mensaje Abierto";
     btn.classList.add('success');
