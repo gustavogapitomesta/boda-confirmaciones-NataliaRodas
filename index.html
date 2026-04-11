@@ -16,12 +16,15 @@
         .card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         .guest-name { font-weight: 600; font-size: 16px; display: block; margin-bottom: 5px; }
         .guest-meta { font-size: 13px; color: #666; margin-bottom: 15px; }
-        .btn-send { background: #1a7a4a; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; }
-        .btn-send:hover { background: #125a36; }
-        .btn-send.success { background: #0c5632; opacity: 0.8; }
+        .btn-copy { background: #c9a96e; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-copy:hover { background: #b08d55; }
+        .btn-copy.success { background: #1a7a4a; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 100; }
     </style>
 </head>
 <body>
+
+<div class="toast" id="toast">¡Mensaje copiado! Listo para pegar en WhatsApp</div>
 
 <div class="container">
     <header>
@@ -36,35 +39,29 @@
 <script>
 const URL_WEB = "https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html";
 
-// BASE DE DATOS CORREGIDA (Jossely, Eduardo y Viterbo actualizados)
 const invitados = [
-    ['JOSE MARQUEZ SANCHEZ','998292682',1],
-    ['JUAN MARQUEZ SANCHEZ','946533027',2],
-    ['DAYANA CCAMA LA TORRE','981450581',1],
-    ['MARIA LA TORRE','987772390',2],
-    ['SEBASTIAN LINGUA','56982189254',2],
-    ['ANDREA BALDERAS','528441852632',2],
-    ['SHARON GRANADOS','963719007',2],
-    ['RUTH PARIONA','973957957',2],
-    ['MARIEL ESPINOZA','999023870',2],
-    ['DIEGO CONDORI','990224425',1],
-    ['JOSSELY PRETELL','907768848',1],
-    ['EDUARDO URBINA','985458135',1],
+    ['JOSE MARQUEZ SANCHEZ', '998292682', 1],
+    ['JUAN MARQUEZ Y ESPOSA', '946533027', 2],
+    ['DAYANA CCAMA LA TORRE', '981450581', 1],
+    ['MARIA LA TORRE Y MANUEL CCAMA', '987772390', 2],
+    ['SEBASTIAN LINGUA', '56982189254', 2],
+    ['ANDREA BALDERAS Y JAVO AYLAS', '528441852632', 2],
+    ['SHARON GRANADOS', '963719007', 2],
+    ['RUTH PARIONA', '973957957', 2],
+    ['ANDRÉS HUAYANAY Y MARIEL ESPINOZA', '999023870', 2],
+    ['DIEGO CONDORI', '990224425', 1],
+    ['JOSSELY YVETTE PRETELL', '907768840', 1],
+    ['EDUARDO URBINA', '985458135', 1],
 ];
 
 function generarMensaje(nombre, pases, id) {
     const link = `${URL_WEB}?id=${id}&pases=${pases}`;
     const nPases = pases === 1 ? "1 pase" : `${pases} pases`;
-    const variante = Math.floor(Math.random() * 3);
-    const espacios = " ".repeat(Math.floor(Math.random() * 3)); // Variación de seguridad
+    
+    // MODELO EXACTO SEGÚN EL WORD ADJUNTO CON SALTOS DE LÍNEA REALES
+    return `Hola, estimado(a) *${nombre}* 🤍
 
-    const intros = [
-        `Hola, estimado(a) *${nombre}* 🤍${espacios}\n\nTe escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
-        `Hola, estimado(a) *${nombre}* 🤍${espacios}\n\nEs un gusto saludarte, soy *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
-        `Hola, estimado(a) *${nombre}* 🤍${espacios}\n\nRecibe un cordial saludo de *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`
-    ];
-
-    return `${intros[variante]}
+Te escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.
 
 En nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.
 
@@ -87,15 +84,22 @@ Con cariño,
 Wedding Planner`;
 }
 
-function enviarWhatsApp(idx, btn) {
+function copiarMensaje(idx, btn) {
     const [nombre, tel, pases] = invitados[idx];
     const texto = generarMensaje(nombre, pases, idx);
-    // Limpia el teléfono de caracteres no numéricos para evitar errores de URL
-    const telLimpio = tel.replace(/\D/g, '');
-    const url = `https://api.whatsapp.com/send?phone=${telLimpio}&text=${encodeURIComponent(texto)}`;
-    window.open(url, '_blank');
-    btn.innerText = "✅ Mensaje Abierto";
-    btn.classList.add('success');
+    
+    navigator.clipboard.writeText(texto).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        btn.classList.add('success');
+        btn.innerHTML = '✅ Mensaje Copiado';
+        
+        setTimeout(() => {
+            toast.style.display = 'none';
+            btn.classList.remove('success');
+            btn.innerHTML = '📋 Copiar Mensaje';
+        }, 3000);
+    });
 }
 
 function filtrar() {
@@ -105,8 +109,8 @@ function filtrar() {
         if (!inv[0].toLowerCase().includes(q)) return '';
         return `<div class="card">
             <span class="guest-name">${inv[0]}</span>
-            <div class="guest-meta">📱 ${inv[1]} | 🎟️ ${inv[2]} pases</div>
-            <button class="btn-send" onclick="enviarWhatsApp(${idx}, this)">🚀 Enviar WhatsApp</button>
+            <div class="guest-meta">🎟️ ${inv[2]} pases | ID: ${idx}</div>
+            <button class="btn-copy" onclick="copiarMensaje(${idx}, this)">📋 Copiar Mensaje</button>
         </div>`;
     }).join('');
 }
