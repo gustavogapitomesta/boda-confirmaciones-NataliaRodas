@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Gestión - Jenny & Rafael</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <title>Panel Natalia - Mª Claudia & Gustavo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root { --rose: #b5294e; --gold: #c9a96e; --dark: #1a1018; --bg: #fdf8f5; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding: 20px; }
+        :root { --gold: #c9a96e; --dark: #1a1018; --bg: #fdf8f5; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--dark); padding: 20px; margin: 0; }
         .container { max-width: 600px; margin: 0 auto; }
         header { text-align: center; margin-bottom: 30px; }
-        h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 5px; }
-        .wp-tag { font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
-        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; outline: none; width: 100%; }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .guest-name { font-weight: 500; font-size: 16px; display: block; margin-bottom: 4px; }
-        .guest-meta { font-size: 12px; color: #777; margin-bottom: 12px; }
-        .btn-copy { background: var(--rose); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 500; cursor: pointer; transition: 0.3s; }
-        .btn-copy.success { background: #1a7a4a; }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--dark); }
+        .wp-tag { font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; font-weight: bold; }
+        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; }
+        .card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .guest-name { font-weight: 600; font-size: 16px; display: block; margin-bottom: 5px; }
+        .guest-meta { font-size: 13px; color: #666; margin-bottom: 15px; }
+        .btn-send { background: #1a7a4a; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; }
+        .btn-send:hover { background: #125a36; }
+        .btn-send.success { background: #0c5632; opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -25,142 +26,79 @@
 <div class="container">
     <header>
         <div class="wp-tag">Wedding Planner · Natalia Rodas</div>
-        <h1>Jenny & Rafael</h1>
-        <p style="font-size: 13px;">Panel de Envío de Invitaciones</p>
+        <h1>Mª Claudia & Gustavo</h1>
     </header>
 
-    <input type="text" class="search-box" id="searchInput" placeholder="Buscar invitado..." oninput="filtrar()">
+    <input type="text" class="search-box" id="searchInput" placeholder="Buscar nombre del invitado..." oninput="filtrar()">
     <div id="listaInvitados"></div>
 </div>
 
 <script>
-// NUEVO LINK BITLY ACTUALIZADO
-const NUEVO_BITLY = "https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html";
+// RUTA DE TU WEB DE CONFIRMACIÓN EN GITHUB
+const URL_WEB = "https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html";
 
+// BASE DE DATOS DE INVITADOS
 const invitados = [
-    // --- LISTA JENNY ---
-    ['LAURA CUSTODIO CARBAJAL','988750894',1], ['JORGE CUSTODIO TELLO','979287052',3],
-    ['MARÍA CUSTODIO CARBAJAL','942192139',1], ['WENDY FIGUEROA CUSTODIO','920045100',1],
-    ['SIMÓN CUSTODIO CARBAJAL','979181111',2], ['JUAN CUSTODIO ROJAS','968684589',2],
-    ['BETO CUSTODIO CARBAJAL','990203116',1], ['WISTON AURICH LORA','979910053',2],
-    ['GUILLERMO AURICH CUSTODIO','978088884',2], ['WISTON AURICH CUSTODIO','977844752',2],
-    ['YULIANA CUSTODIO CARBAJAL','978881904',3], ['WILLIAM DANIEL CUSTODIO CARBAJAL','979832772',2],
-    ['CARLOS CUSTODIO CARBAJAL','979603418',1], ['CARMEN OYOLA','936940490',1],
-    ['CLAUDIA CUSTODIO OYOLA','917412969',2], ['DIANA CUSTODIO OYOLA','920415391',2],
-    ['MARLENE CUSTODIO CARBAJAL','978006403',1], ['ADRIANA VARGAS CUSTODIO','920741054',1],
-    ['ALEJANDRO VARGAS CUSTODIO','996553633',2], ['LILIANA CUSTODIO CARBAJAL','970858861',1],
-    ['DANNY VALIENTE CUSTODIO','979154444',2], ['ROBERTO VALIENTE CUSTODIO','+50378869658',1],
-    ['NELLY CARBAJAL VARGAS','+13057426056',2], ['LUIS CEDRÓN AGAPITO','949903392',2],
-    ['NELY LUCIA CUSTODIO MENDOZA','947011219',1], ['CRISTINA CUSTODIO MENDOZA','955523605',1],
-    ['EDWARD COTRINA','979694440',2], ['ANGELA DIAZ RIOJA','968747656',2],
-    ['CARLOS ROMERO','964516907',2], ['DANTE SAAVEDRA','979608528',2],
-    ['JUAN CARLOS CUSTODIO ROSALES','996344415',2], ['CLAUDIA HIDALGO PALACIOS','952240637',2],
-    ['DANIELA BENDEZU BARNUEVO','977967920',2], ['JOSE JIMENEZ','974154725',2],
-    ['JORGE HUAMANCHUMO MERINO','947848647',2], ['JUAN BACA','959419819',2],
-    ['EMMANUEL HURTADO NOBLECILLA','939492800',2], ['ROGER CONDE MONCADA','943544366',2],
-    ['BRYAN RAFAEL HIDALGO','965153918',2], ['ISABELA GARCÍA VINATEA','952180217',2],
-    ['DIANA PACHECO BRICEÑO','969660753',1], ['ELENA AGUILAR ONOFRE','961093560',1],
-    ['ORIALIZ VELASQUEZ DEL CARPIO','984424782',1], ['DRA EDITH CEDEÑO ASCOY','991405055',2],
-    ['FIORELLA MELENDEZ RAMIREZ','959443971',1], ['CINTHYA CIEZA','956019389',2],
-    ['DANIELLA SEVILLA SILVA','996940342',1], ['JHEAN GABRIEL GONZALES','952041979',2],
-    ['FIORELA COROLADO','913151643',2], ['ALDO RIOS FLORES','933876179',2],
-    ['ALESSANDRA CENTENO','958195480',1], ['OSCAR VARGAS','983107925',1],
-    ['JULIA VASQUEZ','994937309',2], ['CARLOS CARCAUSTO','955809800',2],
-    ['MARINA HUAMAN','966816811',1], ['DR ELLIOT RODRIGUEZ','994615716',2],
-    ['DR SAIRE','980059216',2], ['RUHT VILLARROEL','929283541',2],
-    ['SONIA CHUMPITAZI','955944993',1], ['ROSINA RUIZ','998619009',1],
-    ['BETTINA AVALOS','955203292',2], ['DR JEISON FARRO','949937577',2],
-    ['DR ROBERTO AZURIN','974218411',1], ['DR FERNANDO DEL CARPIO','955734558',2],
-    ['DR QUISPE','985995020',1], ['TIRZA INTOR','979417609',2],
-    ['DR COLLADO','992774885',1], ['DR RAUL REYES','994628059',3],
-    // --- LISTA RAFAEL ---
-    ['ROCHE GUADALUPE','999454340',2], ['ELISA ARCE','954913746',1],
-    ['ANDRES ARCE','990073751',2], ['JORGE FERNANDEZ','904542667',2],
-    ['CARLA FERNANDEZ','+34602594714',2], ['MARIA ALEJANDRA FERNANDEZ','+56965305576',2],
-    ['MARIA GRACIA FERNANDEZ','944483194',2], ['CECILIA MEDINA','946076277',2],
-    ['RUTH VALVERDE','961338057',1], ['CRISTINA NAVARRO','970008801',2],
-    ['NANCY VALVERDE','985804706',1], ['FRIDA ROSENTHAL','+19542990800',1],
-    ['JULIO PUERTAS','975555559',2], ['GABRIELA MORALES','996361957',2],
-    ['GIAN HUAMAN','962542725',2], ['JUAN CARLOS ZUÑIGA','959731513',2],
-    ['JULIO AGUILAR','938165413',2], ['RAFAEL BERRIOS','996799447',2],
-    ['JOELY FRISANCHO','958198166',3], ['GERARDO TRELLES','952280663',2],
-    ['CAROLINA CABRERA','942404048',2], ['JOSE CORNEJO','991083092',2],
-    ['NERY SARMIENTO','987004404',2], ['ARCELIA REYES','986063363',2],
-    ['RICHAR CORTEZ','994638975',1], ['MARCELA MIRANDA','994684759',2],
-    ['MARCO LA TORRE','990459964',2], ['EDSON CARHUAPOMA','922020805',2],
-    ['ANTONIO SKRABONJA','989168305',2], ['EMERSSON LOPEZ','964845661',2],
-    ['ELIANA RAMIREZ','996481492',2], ['MARGARITA MENDIOLA','993468783',2],
-    ['CARLOS RAMOS','963313227',2], ['ANTONY VALLES','917364463',2],
-    ['JOSE UGARTE','99956303',2], ['WILLIAM CARREÑO','935484057',2],
-    ['ALFREDO CALLO','942461164',2], ['ABDON VILLEGAS','950152721',2],
-    ['PAULO GUZMAN','979658550',2]
+    ['JOSE MARQUEZ SANCHEZ','998292682',1],['JUAN MARQUEZ SANCHEZ','946533027',2],['DAYANA CCAMA LA TORRE','981450581',1],['MARIA LA TORRE','987772390',2],['SEBASTIAN LINGUA','+56982189254',2],['ANDREA BALDERAS','+528441852632',2],['SHARON GRANADOS','963719007',2],['RUTH PARIONA','973957957',2],['MARIEL ESPINOZA','999023870',2],['DIEGO CONDORI','990224425',1]
+    // ... Agregar el resto de la lista aquí
 ];
 
-function formatearSaludo(txt) {
-    const p = txt.trim().split(/\s+/);
-    return (p[0] + (p[1] ? " " + p[1] : "")).toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-}
-
 function generarMensaje(nombre, pases, id) {
-    const nombreWP = formatearSaludo(nombre);
+    const link = `${URL_WEB}?id=${id}&pases=${pases}`;
     const nPases = pases === 1 ? "1 pase" : `${pases} pases`;
-    const linkPersonal = `${NUEVO_BITLY}?id=${id}`;
+    const variante = Math.floor(Math.random() * 3);
     
-    return `Hola, estimado(a) *${nombreWP}* 🤍
+    // Modelos validados
+    const intros = [
+        `Hola, estimado(a) *${nombre}* 🤍\n\nTe escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
+        `Hola, estimado(a) *${nombre}* 🤍\n\nEs un gusto saludarte, soy *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`,
+        `Hola, estimado(a) *${nombre}* 🤍\n\nRecibe un cordial saludo de *Natalia Rodas*, wedding planner de María Claudia & Gustavo.`
+    ];
 
-Te escribe *Natalia Rodas*, wedding planner de Jenny & Rafael.
+    return `${intros[variante]}
 
 En nombre de los novios, me comunico personalmente para confirmar tu lugar en este día tan especial.
 
-📅 Sábado, 18 de abril de 2026
-📍 Lambayeque, Chiclayo
+📅 Sábado, 02 de Mayo del 2026
+📍 Pachacamac, Lima
 
-Jenny y Rafael han reservado *${nPases}* exclusivamente para ti — porque no imaginan este momento sin tu presencia.
+María Claudia & Gustavo han reservado *${nPases}* exclusivamente para ti porque no imaginan este momento sin tu presencia.
 
-📌 Ubicación de Iglesia San Pedro:
-https://maps.app.goo.gl/Qw7gEYNtRYWScrUm6
+📌 Ubicación de Iglesia
+https://maps.app.goo.gl/kR2rTp3kRs45y59UA
 
-📌 Ubicación de la recepción:
-https://maps.app.goo.gl/YnXvxNKYMCtDsynC8
+📌 Ubicación de la fiesta: Fundo Pachacamac
+https://maps.app.goo.gl/v3uQQjzvwyyBB6nJA
 
-Te pedimos gentilmente confirmar tu asistencia hasta el miércoles 08 de abril aquí:
-${linkPersonal}
+*_Te pedimos gentilmente confirmar tu asistencia ingresando al link hasta el día sábado 11 de abril:_*
+${link}
 
 Con cariño,
 *Natalia Rodas*
-_Wedding Planner_`;
+Wedding Planner`;
 }
 
-function copiar(idx, btn) {
-    const [nombre,, pases] = invitados[idx];
+function enviarWhatsApp(idx, btn) {
+    const [nombre, tel, pases] = invitados[idx];
     const texto = generarMensaje(nombre, pases, idx);
-    
-    navigator.clipboard.writeText(texto).then(() => {
-        btn.classList.add('success');
-        btn.innerText = '✅ ¡Copiado!';
-        setTimeout(() => {
-            btn.classList.remove('success');
-            btn.innerText = '📋 Copiar para WhatsApp';
-        }, 2000);
-    });
+    const url = `https://api.whatsapp.com/send?phone=${tel}&text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank');
+    btn.innerText = "✅ Mensaje Abierto";
+    btn.classList.add('success');
 }
 
 function filtrar() {
     const q = document.getElementById('searchInput').value.toLowerCase();
-    const lista = invitados
-        .map((inv, index) => ({...inv, id: index}))
-        .filter(inv => inv[0].toLowerCase().includes(q));
-    
     const div = document.getElementById('listaInvitados');
-    div.innerHTML = lista.map(inv => `
-        <div class="card">
+    div.innerHTML = invitados.map((inv, idx) => {
+        if (!inv[0].toLowerCase().includes(q)) return '';
+        return `<div class="card">
             <span class="guest-name">${inv[0]}</span>
-            <div class="guest-meta">📱 ${inv[1]} | 🎟 ${inv[2]} pases</div>
-            <button class="btn-copy" onclick="copiar(${inv.id}, this)">📋 Copiar para WhatsApp</button>
-        </div>
-    `).join('');
+            <div class="guest-meta">📱 ${inv[1]} | 🎟️ ${inv[2]} pases</div>
+            <button class="btn-send" onclick="enviarWhatsApp(${idx}, this)">🚀 Enviar WhatsApp</button>
+        </div>`;
+    }).join('');
 }
-
 filtrar();
 </script>
 </body>
