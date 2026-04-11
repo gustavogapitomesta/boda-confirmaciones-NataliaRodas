@@ -84,34 +84,41 @@ Con cariño,
 Wedding Planner`;
 }
 
+// 1. Reemplaza la función enviarWhatsApp por esta:
 function copiarMensaje(idx, btn) {
     const [nombre, tel, pases] = invitados[idx];
     const texto = generarMensaje(nombre, pases, idx);
     
+    // Copia el texto manteniendo los saltos de línea
     navigator.clipboard.writeText(texto).then(() => {
-        const toast = document.getElementById('toast');
-        toast.style.display = 'block';
-        btn.classList.add('success');
-        btn.innerHTML = '✅ Mensaje Copiado';
+        const originalText = btn.innerHTML;
+        btn.style.backgroundColor = "#1a7a4a"; // Cambia a verde al copiar
+        btn.innerHTML = "✅ ¡Copiado!";
         
         setTimeout(() => {
-            toast.style.display = 'none';
-            btn.classList.remove('success');
-            btn.innerHTML = '📋 Copiar Mensaje';
-        }, 3000);
+            btn.style.backgroundColor = "#c9a96e"; // Vuelve al color original
+            btn.innerHTML = "📋 Copiar Mensaje";
+        }, 2000);
+    }).catch(err => {
+        console.error('Error al copiar: ', err);
+        alert("No se pudo copiar el mensaje. Intenta de nuevo.");
     });
 }
 
+// 2. Reemplaza la función filtrar para que el botón muestre el texto correcto:
 function filtrar() {
     const q = document.getElementById('searchInput').value.toLowerCase();
     const div = document.getElementById('listaInvitados');
     div.innerHTML = invitados.map((inv, idx) => {
         if (!inv[0].toLowerCase().includes(q)) return '';
-        return `<div class="card">
-            <span class="guest-name">${inv[0]}</span>
-            <div class="guest-meta">🎟️ ${inv[2]} pases | ID: ${idx}</div>
-            <button class="btn-copy" onclick="copiarMensaje(${idx}, this)">📋 Copiar Mensaje</button>
-        </div>`;
+        return `
+            <div class="card">
+                <span class="guest-name">${inv[0]}</span>
+                <div class="guest-meta">📱 ${inv[1]} | 🎟️ ${inv[2]} pases</div>
+                <button class="btn-send" style="background-color: #c9a96e;" onclick="copiarMensaje(${idx}, this)">
+                    📋 Copiar Mensaje
+                </button>
+            </div>`;
     }).join('');
 }
 filtrar();
