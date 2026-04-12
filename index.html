@@ -3,63 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Natalia - Maria Claudia & Gustavo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <title>Generador de Invitaciones - Natalia Rodas</title>
     <style>
-        :root { --gold: #c9a96e; --dark: #1a1018; --bg: #fdf8f5; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--dark); padding: 20px; margin: 0; }
-        .container { max-width: 600px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 30px; }
-        h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--dark); }
-        .wp-tag { font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; font-weight: bold; }
-        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; outline: none; }
-        .card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .guest-name { font-weight: 600; font-size: 16px; display: block; margin-bottom: 5px; }
-        .guest-meta { font-size: 13px; color: #666; margin-bottom: 15px; }
-        .btn-copy { background: #c9a96e; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-copy:hover { background: #b08d55; }
-        .btn-copy.success { background: #1a7a4a; }
-        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 100; }
+        body { font-family: 'Montserrat', sans-serif; padding: 20px; background-color: #f4f4f4; text-align: center; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        input, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { background-color: #c9a96e; color: white; font-weight: bold; cursor: pointer; border: none; }
+        #mensajeFinal { background: #e9e9e9; padding: 15px; border-radius: 5px; margin-top: 20px; white-space: pre-wrap; text-align: left; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div class="toast" id="toast">¡Mensaje copiado! Listo para pegar en WhatsApp</div>
-
 <div class="container">
-    <header>
-        <div class="wp-tag">Wedding Planner · Natalia Rodas</div>
-        <h1>Mª Claudia & Gustavo</h1>
-    </header>
+    <h2>Panel de Natalia Rodas</h2>
+    <p>Generador de Mensajes Personalizados</p>
+    
+    <input type="text" id="nombreInvitado" placeholder="Nombre completo del invitado">
+    <input type="number" id="numPases" placeholder="Número de pases" min="1">
+    
+    <button onclick="generarMensaje()">GENERAR MENSAJE PARA WHATSAPP</button>
 
-    <input type="text" class="search-box" id="searchInput" placeholder="Buscar nombre del invitado..." oninput="filtrar()">
-    <div id="listaInvitados"></div>
+    <div id="mensajeFinal" style="display:none;"></div>
+    <button id="btnWhatsApp" style="display:none; background-color: #25d366;">ENVIAR POR WHATSAPP</button>
 </div>
 
 <script>
-const URL_WEB = "https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html";
+function generarMensaje() {
+    // 1. Capturamos lo que Natalia escribe
+    const nombre = document.getElementById('nombreInvitado').value.trim();
+    const pases = document.getElementById('numPases').value;
 
-const invitados = [
-    ['JOSE MARQUEZ SANCHEZ', '998292682', 1],
-    ['JUAN MARQUEZ Y ESPOSA', '946533027', 2],
-    ['DAYANA CCAMA LA TORRE', '981450581', 1],
-    ['MARIA LA TORRE Y MANUEL CCAMA', '987772390', 2],
-    ['SEBASTIAN LINGUA', '56982189254', 2],
-    ['ANDREA BALDERAS Y JAVO AYLAS', '528441852632', 2],
-    ['SHARON GRANADOS', '963719007', 2],
-    ['RUTH PARIONA', '973957957', 2],
-    ['ANDRÉS HUAYANAY Y MARIEL ESPINOZA', '999023870', 2],
-    ['DIEGO CONDORI', '990224425', 1],
-    ['JOSSELY YVETTE PRETELL', '907768840', 1],
-    ['EDUARDO URBINA', '985458135', 1],
-];
+    if (nombre === "" || pases === "") {
+        alert("Por favor, completa el nombre y los pases.");
+        return;
+    }
 
-function generarMensaje(nombre, pases, id) {
-    const link = `${URL_WEB}?id=${id}&pases=${pases}`;
-    const nPases = pases === 1 ? "1 pase" : `${pases} pases`;
-    
-    // MODELO EXACTO SEGÚN EL WORD ADJUNTO CON SALTOS DE LÍNEA REALES
-    return `Hola, estimado(a) *${nombre}* 🤍
+    // 2. CREAMOS EL LINK CORRECTO (Aquí estaba el error)
+    // Usamos el nombre para el "id" y el número para "pases"
+    const nombreParaLink = encodeURIComponent(nombre.replace(/ /g, "_"));
+    const linkConfirmacion = "https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html?id=" + nombreParaLink + "&pases=" + pases;
+
+    // 3. Redactamos el mensaje tal cual lo pediste
+    const mensaje = `Hola, estimado(a) *${nombre.toUpperCase()}* 🤍
 
 Te escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.
 
@@ -68,7 +53,7 @@ En nombre de los novios, me comunico personalmente para confirmar tu lugar en es
 📅 Sábado, 02 de Mayo del 2026
 📍 Pachacamac, Lima
 
-María Claudia & Gustavo han reservado *${nPases}* exclusivamente para ti porque no imaginan este momento sin tu presencia.
+María Claudia & Gustavo han reservado *${pases} pase(s)* exclusivamente para ti porque no imaginan este momento sin tu presencia.
 
 📌 Ubicación de Iglesia
 https://maps.app.goo.gl/kR2rTp3kRs45y59UA
@@ -77,51 +62,24 @@ https://maps.app.goo.gl/kR2rTp3kRs45y59UA
 https://maps.app.goo.gl/v3uQQjzvwyyBB6nJA
 
 *_Te pedimos gentilmente confirmar tu asistencia ingresando al link hasta el día sábado 11 de abril:_*
-${link}
+${linkConfirmacion}
 
 Con cariño,
 *Natalia Rodas*
 Wedding Planner`;
-}
 
-// 1. Reemplaza la función enviarWhatsApp por esta:
-function copiarMensaje(idx, btn) {
-    const [nombre, tel, pases] = invitados[idx];
-    const texto = generarMensaje(nombre, pases, idx);
-    
-    // Copia el texto manteniendo los saltos de línea
-    navigator.clipboard.writeText(texto).then(() => {
-        const originalText = btn.innerHTML;
-        btn.style.backgroundColor = "#1a7a4a"; // Cambia a verde al copiar
-        btn.innerHTML = "✅ ¡Copiado!";
-        
-        setTimeout(() => {
-            btn.style.backgroundColor = "#c9a96e"; // Vuelve al color original
-            btn.innerHTML = "📋 Copiar Mensaje";
-        }, 2000);
-    }).catch(err => {
-        console.error('Error al copiar: ', err);
-        alert("No se pudo copiar el mensaje. Intenta de nuevo.");
-    });
-}
+    // 4. Mostramos el resultado en pantalla
+    const contenedor = document.getElementById('mensajeFinal');
+    contenedor.style.display = "block";
+    contenedor.innerText = mensaje;
 
-// 2. Reemplaza la función filtrar para que el botón muestre el texto correcto:
-function filtrar() {
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    const div = document.getElementById('listaInvitados');
-    div.innerHTML = invitados.map((inv, idx) => {
-        if (!inv[0].toLowerCase().includes(q)) return '';
-        return `
-            <div class="card">
-                <span class="guest-name">${inv[0]}</span>
-                <div class="guest-meta">📱 ${inv[1]} | 🎟️ ${inv[2]} pases</div>
-                <button class="btn-send" style="background-color: #c9a96e;" onclick="copiarMensaje(${idx}, this)">
-                    📋 Copiar Mensaje
-                </button>
-            </div>`;
-    }).join('');
+    const btnWA = document.getElementById('btnWhatsApp');
+    btnWA.style.display = "block";
+    btnWA.onclick = function() {
+        window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(mensaje));
+    };
 }
-filtrar();
 </script>
+
 </body>
 </html>
