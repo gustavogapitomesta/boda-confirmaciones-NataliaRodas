@@ -13,7 +13,7 @@
         .loading { background: #fff3cd; color: #856404; }
         .ready { background: #d4edda; color: #155724; }
         label { display: block; text-align: left; font-weight: 600; margin-bottom: 5px; font-size: 14px; color: #555; }
-        select { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; background: #fafafa; width: 100%; }
+        select { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; background: #fafafa; }
         button { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; background: #25d366; color: white; }
         #preview { margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 10px; text-align: left; font-size: 12px; display: none; border: 1px solid #eee; white-space: pre-wrap; color: #333; line-height: 1.5; }
     </style>
@@ -34,7 +34,7 @@
 </div>
 
 <script>
-    // URL DE TU EXCEL PUBLICADO (Debe terminar en output=csv)
+    // PEGA AQUÍ EL LINK DE PUBLICACIÓN QUE TERMINA EN output=csv
     const URL_EXCEL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNMqkqlD9u6EmL2X-sxuUYmd_Wwgb0qhQcUjWH5WTy7dEhnLG3tU8jnrjboG6TtkJpDZRU6r1vlDP8/pub?output=csv';
 
     let baseDatosInvitados = [];
@@ -44,13 +44,13 @@
             const res = await fetch(URL_EXCEL + '&nocache=' + new Date().getTime());
             const csvText = await res.text();
             
-            // Dividir filas y limpiar
+            // Separar filas y omitir la primera (cabecera)
             const filas = csvText.split(/\r?\n/).filter(f => f.trim() !== "").slice(1);
             const select = document.getElementById('listaInvitados');
             select.innerHTML = '<option value="">-- Seleccionar Invitado --</option>';
 
             filas.forEach(fila => {
-                // Usamos una expresión regular para manejar comas dentro de comillas
+                // Dividir por comas, pero considerando que puede haber comas dentro de comillas
                 const columnas = fila.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
                 
                 if (columnas && columnas.length >= 4) {
@@ -70,8 +70,6 @@
             if (baseDatosInvitados.length > 0) {
                 document.getElementById('status').innerText = `✅ ${baseDatosInvitados.length} invitados cargados`;
                 document.getElementById('status').className = "status ready";
-            } else {
-                document.getElementById('status').innerText = "⚠️ No se detectaron datos en el Excel";
             }
         } catch (err) {
             document.getElementById('status').innerText = "❌ Error: Revisa el enlace del Excel";
