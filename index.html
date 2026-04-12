@@ -34,7 +34,7 @@
 </div>
 
 <script>
-    // PEGA AQUÍ EL LINK DE PUBLICACIÓN QUE TERMINA EN output=csv
+    // URL DE TU EXCEL PUBLICADO (Asegúrate que termine en output=csv)
     const URL_EXCEL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNMqkqlD9u6EmL2X-sxuUYmd_Wwgb0qhQcUjWH5WTy7dEhnLG3tU8jnrjboG6TtkJpDZRU6r1vlDP8/pub?output=csv';
 
     let baseDatosInvitados = [];
@@ -44,24 +44,27 @@
             const res = await fetch(URL_EXCEL + '&nocache=' + new Date().getTime());
             const csvText = await res.text();
             
-            // Separar filas y omitir la primera (cabecera)
+            // Dividir por líneas y filtrar vacías
             const filas = csvText.split(/\r?\n/).filter(f => f.trim() !== "").slice(1);
             const select = document.getElementById('listaInvitados');
             select.innerHTML = '<option value="">-- Seleccionar Invitado --</option>';
 
             filas.forEach(fila => {
-                // Dividir por comas, pero considerando que puede haber comas dentro de comillas
+                // Esta expresión regular separa correctamente las columnas aunque tengan comas internas
                 const columnas = fila.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
                 
                 if (columnas && columnas.length >= 4) {
-                    const nombre = columnas[1].replace(/"/g, "").trim(); 
-                    const pases = columnas[3].replace(/"/g, "").trim();  
+                    // Columna 1 es el Rótulo (Nombre completo)
+                    let nombreCompleto = columnas[1].replace(/^"|"$/g, '').trim(); 
+                    // Columna 3 es el Nº de pases
+                    let pases = columnas[3].replace(/^"|"$/g, '').trim();  
                     
-                    if (nombre) {
-                        baseDatosInvitados.push({ nombre, pases });
+                    if (nombreCompleto) {
+                        baseDatosInvitados.push({ nombre: nombreCompleto, pases: pases });
                         const opt = document.createElement('option');
-                        opt.value = nombre;
-                        opt.textContent = `${nombre} (${pases} pases)`;
+                        opt.value = nombreCompleto;
+                        // Mostramos el nombre completo + pases en la lista
+                        opt.textContent = `${nombreCompleto.toUpperCase()} (${pases} pases)`;
                         select.appendChild(opt);
                     }
                 }
@@ -82,7 +85,8 @@
         const box = document.getElementById('preview');
 
         if (invitado) {
-            const nombreURL = encodeURIComponent(invitado.nombre.split(' ').join('_'));
+            // Reemplaza espacios por guiones bajos para el link de confirmación
+            const nombreURL = encodeURIComponent(invitado.nombre.trim().replace(/\s+/g, '_'));
             const linkFinal = `https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html?id=${nombreURL}&pases=${invitado.pases}`;
 
             const mensaje = `Hola, estimado(a) *${invitado.nombre.toUpperCase()}* 🤍
