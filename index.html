@@ -3,31 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Natalia - Control Total</title>
+    <title>Panel Natalia - Confirmaciones Boda</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Montserrat', sans-serif; background: #f4f4f4; padding: 20px; display: flex; justify-content: center; }
         .container { max-width: 600px; width: 100%; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
         h2 { color: #c9a96e; margin-bottom: 10px; }
-        .status { font-size: 11px; margin-bottom: 20px; padding: 10px; border-radius: 5px; font-weight: bold; }
-        .ready { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status { font-size: 11px; margin-bottom: 20px; padding: 10px; border-radius: 5px; font-weight: bold; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         label { display: block; text-align: left; font-weight: 600; margin-bottom: 10px; font-size: 14px; color: #555; }
-        
-        /* MEJORA VISUAL: Selector más ancho y con texto claro */
-        select { 
-            width: 100%; 
-            padding: 15px; 
-            margin-bottom: 20px; 
-            border-radius: 10px; 
-            border: 2px solid #c9a96e; 
-            font-size: 16px; 
-            background: #fff;
-            color: #333;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-        
-        button { width: 100%; padding: 18px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; background: #25d366; color: white; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        select { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 2px solid #c9a96e; font-size: 16px; background: #fff; color: #333; }
+        button { width: 100%; padding: 18px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; background: #25d366; color: white; box-shadow: 0 4px 10px rgba(37,211,102,0.3); }
         #preview { margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 10px; text-align: left; font-size: 13px; display: none; border: 1px solid #eee; white-space: pre-wrap; color: #333; line-height: 1.6; }
     </style>
 </head>
@@ -35,11 +20,11 @@
 
 <div class="container">
     <h2>Panel de Natalia</h2>
-    <div id="status" class="status ready">Sincronizando con Google Sheets...</div>
+    <div id="status" class="status">Sincronizando con Lista Oficial...</div>
 
     <label>Selecciona el nombre completo del invitado:</label>
     <select id="listaInvitados" onchange="generarVistaPrevia()">
-        <option value="">Cargando lista oficial...</option>
+        <option value="">Cargando lista...</option>
     </select>
 
     <div id="preview"></div>
@@ -47,12 +32,11 @@
 </div>
 
 <script>
-    // NUEVA URL PROPORCIONADA
     const URL_EXCEL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQxLY5s-q8jpKj35mRLWkwjkIT1Tcd4ANE9id9IKazzXxg0SAfvncr_-65bpYh3fjgWd5ni60N1v6cV/pub?output=csv';
 
     let baseDatosInvitados = [];
 
-    // Función profesional para procesar CSV
+    // Lector de CSV preciso
     function procesarCSV(texto) {
         const lineas = texto.split(/\r?\n/);
         return lineas.map(linea => {
@@ -72,33 +56,28 @@
 
     async function obtenerDatos() {
         try {
-            const res = await fetch(URL_EXCEL + '&cache=' + new Date().getTime());
+            const res = await fetch(URL_EXCEL + '&t=' + new Date().getTime());
             const csvText = await res.text();
             const filas = procesarCSV(csvText).slice(1); 
-            
             const select = document.getElementById('listaInvitados');
             select.innerHTML = '<option value="">-- BUSCAR POR NOMBRE COMPLETO --</option>';
 
             filas.forEach(columnas => {
-                // Según tu Excel: Columna 1 (Índice 1) es NOMBRE, Columna 2 (Índice 2) es PASES
                 if (columnas.length >= 3) {
                     const nombreCompleto = columnas[1].trim();
                     const nroPases = columnas[2].trim();
-                    
-                    if (nombreCompleto && nombreCompleto !== "") {
+                    if (nombreCompleto) {
                         baseDatosInvitados.push({ nombre: nombreCompleto, pases: nroPases });
                         const opt = document.createElement('option');
                         opt.value = nombreCompleto;
-                        // Forzamos visualización completa
                         opt.textContent = nombreCompleto.toUpperCase();
                         select.appendChild(opt);
                     }
                 }
             });
-
             document.getElementById('status').innerText = `✅ ${baseDatosInvitados.length} INVITADOS CARGADOS`;
         } catch (err) {
-            document.getElementById('status').innerText = "❌ ERROR: No se pudo leer el Excel";
+            document.getElementById('status').innerText = "❌ ERROR AL CARGAR EXCEL";
         }
     }
 
@@ -111,6 +90,7 @@
             const nombreURL = encodeURIComponent(invitado.nombre.replace(/\s+/g, '_'));
             const linkFinal = `https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html?id=${nombreURL}&pases=${invitado.pases}`;
 
+            // --- AQUÍ SE MODIFICÓ LA FECHA ---
             const mensaje = `Hola, estimado(a) *${invitado.nombre.toUpperCase()}* 🤍
 
 Te escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.
@@ -145,11 +125,7 @@ Wedding Planner`;
 
     function enviarWhatsApp() {
         const msg = generarVistaPrevia();
-        if (msg) {
-            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg));
-        } else {
-            alert("Selecciona un invitado primero");
-        }
+        if (msg) window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg));
     }
 
     obtenerDatos();
