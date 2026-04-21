@@ -3,73 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Natalia - Control de Invitados</title>
+    <title>Panel Natalia - Control Total</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Montserrat', sans-serif; background: #f4f4f4; padding: 20px; display: flex; justify-content: center; }
-        .container { max-width: 500px; width: 100%; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        h2 { color: #c9a96e; margin-bottom: 5px; }
-        .status { font-size: 11px; margin-bottom: 20px; padding: 8px; border-radius: 5px; font-weight: bold; }
-        .ready { background: #d4edda; color: #155724; }
-        label { display: block; text-align: left; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: #555; }
-        select { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; background: #fafafa; }
-        button { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; background: #25d366; color: white; }
-        #preview { margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 10px; text-align: left; font-size: 12px; display: none; border: 1px solid #eee; white-space: pre-wrap; color: #333; }
+        .container { max-width: 600px; width: 100%; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        h2 { color: #c9a96e; margin-bottom: 10px; }
+        .status { font-size: 11px; margin-bottom: 20px; padding: 10px; border-radius: 5px; font-weight: bold; }
+        .ready { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        label { display: block; text-align: left; font-weight: 600; margin-bottom: 10px; font-size: 14px; color: #555; }
+        
+        /* MEJORA VISUAL: Selector más ancho y con texto claro */
+        select { 
+            width: 100%; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border-radius: 10px; 
+            border: 2px solid #c9a96e; 
+            font-size: 16px; 
+            background: #fff;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        
+        button { width: 100%; padding: 18px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; background: #25d366; color: white; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        #preview { margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 10px; text-align: left; font-size: 13px; display: none; border: 1px solid #eee; white-space: pre-wrap; color: #333; line-height: 1.6; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Panel de Natalia</h2>
-    <div id="status" class="status ready">Sincronizando con Excel...</div>
+    <div id="status" class="status ready">Sincronizando con Google Sheets...</div>
 
-    <label>Seleccionar nombre del invitado:</label>
+    <label>Selecciona el nombre completo del invitado:</label>
     <select id="listaInvitados" onchange="generarVistaPrevia()">
-        <option value="">Cargando lista...</option>
+        <option value="">Cargando lista oficial...</option>
     </select>
 
     <div id="preview"></div>
-    <button onclick="enviarWhatsApp()">ENVIAR POR WHATSAPP</button>
+    <button onclick="enviarWhatsApp()">ENVIAR MENSAJE DE CONFIRMACIÓN</button>
 </div>
 
 <script>
-    // URL DE TU EXCEL PUBLICADO COMO CSV
+    // NUEVA URL PROPORCIONADA
     const URL_EXCEL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQxLY5s-q8jpKj35mRLWkwjkIT1Tcd4ANE9id9IKazzXxg0SAfvncr_-65bpYh3fjgWd5ni60N1v6cV/pub?output=csv';
 
     let baseDatosInvitados = [];
+
+    // Función profesional para procesar CSV
+    function procesarCSV(texto) {
+        const lineas = texto.split(/\r?\n/);
+        return lineas.map(linea => {
+            const c = [];
+            let f = false, curr = '';
+            for (let i = 0; i < linea.length; i++) {
+                let char = linea[i];
+                if (char === '"' && linea[i+1] === '"') { curr += '"'; i++; }
+                else if (char === '"') { f = !f; }
+                else if (char === ',' && !f) { c.push(curr); curr = ''; }
+                else { curr += char; }
+            }
+            c.push(curr);
+            return c;
+        });
+    }
 
     async function obtenerDatos() {
         try {
             const res = await fetch(URL_EXCEL + '&cache=' + new Date().getTime());
             const csvText = await res.text();
+            const filas = procesarCSV(csvText).slice(1); 
             
-            // Procesar filas (saltando encabezado)
-            const filas = csvText.split(/\r?\n/).filter(f => f.trim() !== "").slice(1);
             const select = document.getElementById('listaInvitados');
-            select.innerHTML = '<option value="">-- Seleccionar Invitado --</option>';
+            select.innerHTML = '<option value="">-- BUSCAR POR NOMBRE COMPLETO --</option>';
 
-            filas.forEach(fila => {
-                // Regex para capturar columnas correctamente aunque tengan comas internas
-                const columnas = fila.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                
-                if (columnas && columnas.length >= 3) {
-                    const nombre = columnas[1].replace(/"/g, "").trim(); 
-                    const pases = columnas[2].replace(/"/g, "").trim();  
+            filas.forEach(columnas => {
+                // Según tu Excel: Columna 1 (Índice 1) es NOMBRE, Columna 2 (Índice 2) es PASES
+                if (columnas.length >= 3) {
+                    const nombreCompleto = columnas[1].trim();
+                    const nroPases = columnas[2].trim();
                     
-                    if (nombre) {
-                        baseDatosInvitados.push({ nombre, pases });
+                    if (nombreCompleto && nombreCompleto !== "") {
+                        baseDatosInvitados.push({ nombre: nombreCompleto, pases: nroPases });
                         const opt = document.createElement('option');
-                        opt.value = nombre;
-                        // MEJORA: Solo nombre en el desplegable para evitar confusión visual
-                        opt.textContent = nombre.toUpperCase();
+                        opt.value = nombreCompleto;
+                        // Forzamos visualización completa
+                        opt.textContent = nombreCompleto.toUpperCase();
                         select.appendChild(opt);
                     }
                 }
             });
 
-            document.getElementById('status').innerText = `✅ ${baseDatosInvitados.length} invitados cargados`;
+            document.getElementById('status').innerText = `✅ ${baseDatosInvitados.length} INVITADOS CARGADOS`;
         } catch (err) {
-            document.getElementById('status').innerText = "❌ Error de conexión con Excel";
+            document.getElementById('status').innerText = "❌ ERROR: No se pudo leer el Excel";
         }
     }
 
@@ -82,7 +111,6 @@
             const nombreURL = encodeURIComponent(invitado.nombre.replace(/\s+/g, '_'));
             const linkFinal = `https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html?id=${nombreURL}&pases=${invitado.pases}`;
 
-            // Mensaje respetando la estructura anterior y validando el nro de pases del excel
             const mensaje = `Hola, estimado(a) *${invitado.nombre.toUpperCase()}* 🤍
 
 Te escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.
@@ -100,7 +128,7 @@ https://maps.app.goo.gl/kR2rTp3kRs45y59UA
 📌 Ubicación de la fiesta: Fundo Pachacamac
 https://maps.app.goo.gl/v3uQQjzvwyyBB6nJA
 
-*_Te pedimos gentilmente confirmar tu asistencia ingresando al link hasta el día jueves 23 de abril:_*
+*_Te pedimos gentilmente confirmar tu asistencia ingresando al link hasta el día domingo 12 de abril:_*
 ${linkFinal}
 
 Con cariño,
@@ -120,7 +148,7 @@ Wedding Planner`;
         if (msg) {
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg));
         } else {
-            alert("Por favor selecciona un invitado");
+            alert("Selecciona un invitado primero");
         }
     }
 
