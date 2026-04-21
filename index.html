@@ -36,7 +36,6 @@
 
     let baseDatosInvitados = [];
 
-    // Lector de CSV preciso
     function procesarCSV(texto) {
         const lineas = texto.split(/\r?\n/);
         return lineas.map(linea => {
@@ -63,11 +62,14 @@
             select.innerHTML = '<option value="">-- BUSCAR POR NOMBRE COMPLETO --</option>';
 
             filas.forEach(columnas => {
-                if (columnas.length >= 3) {
+                if (columnas.length >= 4) {
                     const nombreCompleto = columnas[1].trim();
                     const nroPases = columnas[2].trim();
+                    // Limpiamos el número de símbolos como ( ) - o espacios
+                    const celular = columnas[3].trim().replace(/\D/g,''); 
+                    
                     if (nombreCompleto) {
-                        baseDatosInvitados.push({ nombre: nombreCompleto, pases: nroPases });
+                        baseDatosInvitados.push({ nombre: nombreCompleto, pases: nroPases, telefono: celular });
                         const opt = document.createElement('option');
                         opt.value = nombreCompleto;
                         opt.textContent = nombreCompleto.toUpperCase();
@@ -90,7 +92,6 @@
             const nombreURL = encodeURIComponent(invitado.nombre.replace(/\s+/g, '_'));
             const linkFinal = `https://gustavogapitomesta.github.io/Confirmaciones---Invitados/confirmar.html?id=${nombreURL}&pases=${invitado.pases}`;
 
-            // --- AQUÍ SE MODIFICÓ LA FECHA ---
             const mensaje = `Hola, estimado(a) *${invitado.nombre.toUpperCase()}* 🤍
 
 Te escribe *Natalia Rodas*, wedding planner de María Claudia & Gustavo.
@@ -117,15 +118,30 @@ Wedding Planner`;
             
             box.innerText = mensaje;
             box.style.display = "block";
-            return mensaje;
+            return { texto: mensaje, telefono: invitado.telefono };
         }
         box.style.display = "none";
         return null;
     }
 
     function enviarWhatsApp() {
-        const msg = generarVistaPrevia();
-        if (msg) window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg));
+        const datos = generarVistaPrevia();
+        if (datos && datos.telefono) {
+            let num = datos.telefono;
+
+            // LÓGICA INTELIGENTE DE PREFIJO:
+            // Si el número tiene 9 dígitos (Formato Perú), agregamos 51
+            if (num.length === 9) {
+                num = "51" + num;
+            } 
+            // Si tiene más de 10 dígitos (Internacional), lo dejamos tal cual 
+            // porque ya trae su propio prefijo (ej: Leonor con 1315...)
+
+            const linkWA = `https://api.whatsapp.com/send?phone=${num}&text=${encodeURIComponent(datos.texto)}`;
+            window.open(linkWA, "_blank");
+        } else if (datos && !datos.telefono) {
+            alert("No hay teléfono registrado para este invitado.");
+        }
     }
 
     obtenerDatos();
